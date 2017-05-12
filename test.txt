@@ -1,0 +1,5 @@
+int num;
+num = 10;
+int num2;
+num2 = 10;
+num == num2;
