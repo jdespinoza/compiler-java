@@ -6,12 +6,10 @@
 package Grammar;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-/**
- *
- * @author Carol
- */
+
 public class SymbolTable {
     
     public Map<String, String> declareID;
@@ -34,4 +32,23 @@ public class SymbolTable {
         return assignID.get(id);
     }
     
+    public String printSymbolTable(){
+        String out = "";
+        Iterator t = declareID.entrySet().iterator();
+        System.out.println("cantidad elementos "+declareID.size()+" "+assignID.size());
+        while(t.hasNext()){
+            Map.Entry entry = (Map.Entry)t.next();
+            String keyD = entry.getKey().toString();
+            String valueD = entry.getValue().toString();
+            System.out.println(keyD+" "+valueD);
+            //concatena
+            out+= "| "+keyD+" "+valueD;
+            //si se le asigno un valor
+            if(assignID.get(valueD)!= null){
+                out+=" := " + assignID.get(valueD);
+            }
+            out+="\n-----------\n";
+        }
+        return out;
+    }
 }
