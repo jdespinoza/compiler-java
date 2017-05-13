@@ -1,6 +1,8 @@
 package LexicalAnalyzer;
 
 import java_cup.runtime.*;
+import java.util.ArrayList;
+import static LexicalAnalyzer.sym.terminalNames;
 
 %%
 
@@ -16,17 +18,43 @@ import java_cup.runtime.*;
 
 %{
 
+ public ArrayList<Symbol> listLexer = new ArrayList<>();
+
  public Yylex(java.io.InputStream in) {
     this(new java.io.InputStreamReader(in));
   }
 
+/* Pasa a String los valores de los objetos Symbol
+   creando una lista de tokens con su valor en formato:
+    < Token, Valor > .
+*/
+ public String printListLexer(){
+     String out = "";
+     Symbol n;
+     int len = listLexer.size();
+     for(int i = 0; i < len ;i++){
+         n = listLexer.get(i);
+         out+="< "+terminalNames[n.sym];
+         if(n.value!= null){
+             out+=", "+n.value;
+         }
+         out+=" >\n";
+     }
+     return out;
+ }
+
+ /*Muestra la lista de lexers*/
+ public ArrayList<Symbol> getListLexer(){
+    return listLexer;
+ }
 %} 
 
 NUMBER_LEXER = [0-9]+
 WHITESPACE_LEXER = [ \t]
 ENTER_LEXER = [\r\n]+
 IDENTIFIER_LEXER = [a-zA-Z][a-zA-Z0-9]*
-KEYWORD_LEXER = "int"
+KEYWORD_LEXER = "if"|"else"
+TYPE_LEXER = "int"
 OPERATOR_LEXER = ">"|"<"|"=="|"¡="|"&&"|"||"
 
 %% 
@@ -36,71 +64,110 @@ OPERATOR_LEXER = ">"|"<"|"=="|"¡="|"&&"|"||"
 {ENTER_LEXER} { return new Symbol(sym.TK_ENTER); }
 
 {KEYWORD_LEXER} {
-                  return new Symbol(sym.TK_KEYWORD, yyline, yycolumn, yytext());  
+                  Symbol n = new Symbol(sym.TK_KEYWORD, yyline, yycolumn, yytext());
+                  listLexer.add(n);
+                  return n;  
                 }
 
+{TYPE_LEXER} {
+                  Symbol n = new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());
+                  listLexer.add(n);
+                  return n;  
+                }
 {IDENTIFIER_LEXER} {
-                    return new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
+                    Symbol n = new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
+                    listLexer.add(n);
+                    return n;
                 }
 
 {NUMBER_LEXER} {    
-                  return new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
+                    Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
+                    listLexer.add(n);
+                    return n;
                }
 
 "+"             {    
-                  return new Symbol(sym.TK_MAS);
+                  Symbol n = new Symbol(sym.TK_MAS);
+                  listLexer.add(n);
+                  return n;
                 }
 
-"-"		{   
-                  return new Symbol(sym.TK_MENOS);
+"-"		{ 
+                  Symbol n = new Symbol(sym.TK_MENOS);
+                  listLexer.add(n);
+                  return n;
                 }
 
-"*"		{                
-                  return new Symbol(sym.TK_POR);                  
+"*"		{          
+                  Symbol n = new Symbol(sym.TK_POR);
+                  listLexer.add(n);
+                  return n;
                 }
 
 "/"		{   
-                  return new Symbol(sym.TK_DIV);                  
+                  Symbol n = new Symbol(sym.TK_DIV);
+                  listLexer.add(n);
+                  return n;
                 }
 
 "("		{  
-                  return new Symbol(sym.TK_LPAREN);                  
+                  Symbol n = new Symbol(sym.TK_LPAREN);
+                  listLexer.add(n);
+                  return n;                  
                 }
 
 ")"             { 
-                  return new Symbol(sym.TK_RPAREN);                  
+                  Symbol n = new Symbol(sym.TK_RPAREN);
+                  listLexer.add(n);
+                  return n;
                 }
 
 "="             {
-                    return new Symbol(sym.TK_ASSIGN);
+                    Symbol n = new Symbol(sym.TK_ASSIGN);
+                    listLexer.add(n);
+                    return n;
                 }
 
 ">"             {
-                    return new Symbol(sym.TK_GREATER);
+                    Symbol n = new Symbol(sym.TK_GREATER);
+                    listLexer.add(n);
+                    return n;
                 }
 
 "<"             {
-                    return new Symbol(sym.TK_LESS);
+                    Symbol n = new Symbol(sym.TK_LESS);
+                    listLexer.add(n);
+                    return n;
                 }
 
 "=="            {
-                    return new Symbol(sym.TK_EQUAL);
+                    Symbol n = new Symbol(sym.TK_EQUAL);
+                    listLexer.add(n);
+                    return n;
                 }
 
 "¡="            {
-                    return new Symbol(sym.TK_DIFFERENT);
+                    Symbol n = new Symbol(sym.TK_DIFFERENT);
+                    listLexer.add(n);
+                    return n;
                 }
 
 "&&"            {
-                    return new Symbol(sym.TK_AND);
+                    Symbol n = new Symbol(sym.TK_AND);
+                    listLexer.add(n);
+                    return n;
                 }
 
 "||"            {
-                    return new Symbol(sym.TK_OR);
+                    Symbol n = new Symbol(sym.TK_OR);
+                    listLexer.add(n);
+                    return n;
                 }
 
 ";"             {
-                    return new Symbol(sym.TK_PYC);
+                    Symbol n = new Symbol(sym.TK_PYC);
+                    listLexer.add(n);
+                    return n;
                 }
 
 .               {  }
