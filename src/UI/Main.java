@@ -5,12 +5,18 @@
  */
 package UI;
 
+import Grammar.Documento;
+import LexicalAnalyzer.Parser;
+import LexicalAnalyzer.Yylex;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -20,21 +26,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- *
- * @author Carol
- */
+
 public class Main extends javax.swing.JFrame {
 
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("C-0 Files [.c0]", "c0");
+    private Map<String, String> listPaths;
+    private String resConsole;
+    private String resLexer;
+    private String resTable;
     
     
     public Main() {
         initComponents();
+        this.listPaths = new HashMap<String, String>();
         this.setLocationRelativeTo(null);
         _start();
     }
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,23 +56,26 @@ public class Main extends javax.swing.JFrame {
 
         jDialog1 = new javax.swing.JDialog();
         jFileChooser1 = new javax.swing.JFileChooser();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabFiles = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jTabsTerminal = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        jPanelTerminalConsole = new javax.swing.JTextPane();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
+        jPanelTerminalFlex = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextPane4 = new javax.swing.JTextPane();
+        jPanelTerminalTable = new javax.swing.JTextPane();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
 
         jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,24 +96,37 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTabbedPane1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTabbedPane1.setAutoscrolls(true);
+        jTabFiles.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jTabFiles.setAutoscrolls(true);
 
         jTree1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTree1.setAutoscrolls(true);
         jScrollPane1.setViewportView(jTree1);
 
-        jScrollPane3.setViewportView(jTextPane2);
+        jTabsTerminal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabsTerminalMouseClicked(evt);
+            }
+        });
 
-        jTabbedPane3.addTab("Console", jScrollPane3);
+        jScrollPane3.setViewportView(jPanelTerminalConsole);
 
-        jScrollPane4.setViewportView(jTextPane3);
+        jTabsTerminal.addTab("Console", jScrollPane3);
 
-        jTabbedPane3.addTab("Flex", jScrollPane4);
+        jScrollPane4.setViewportView(jPanelTerminalFlex);
 
-        jScrollPane5.setViewportView(jTextPane4);
+        jTabsTerminal.addTab("Flex", jScrollPane4);
 
-        jTabbedPane3.addTab("Symbol Table", jScrollPane5);
+        jScrollPane5.setViewportView(jPanelTerminalTable);
+
+        jTabsTerminal.addTab("Symbol Table", jScrollPane5);
+
+        jButton1.setText("Compile");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -133,11 +159,29 @@ public class Main extends javax.swing.JFrame {
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("Save as");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Close File");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
+        jMenu2.add(jRadioButtonMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -149,17 +193,22 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE))
-            .addComponent(jTabbedPane3)
+                .addComponent(jTabFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE))
+            .addComponent(jTabsTerminal)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPane1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+                    .addComponent(jTabFiles))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabsTerminal, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,13 +227,13 @@ public class Main extends javax.swing.JFrame {
     private void manageFiles(File[] files){
         for (File file : files) {
             JTextPane textArea = new JTextPane();
-            jTabbedPane1.addTab(file.getName(), textArea);
+            jTabFiles.addTab(file.getName(), textArea);
         }
     }
     
     private void _start(){
         JTextPane textArea = new JTextPane();
-        jTabbedPane1.addTab("File*", textArea);
+        jTabFiles.addTab("File*", textArea);
     }
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -210,6 +259,9 @@ public class Main extends javax.swing.JFrame {
                 }
                 b.close();
                 textArea.setText(text);
+                
+                /* Se guarda el path del archivo abierto */
+                listPaths.put(file.getName(), file.getPath());
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -217,28 +269,31 @@ public class Main extends javax.swing.JFrame {
             }
             //jScrollPane.setViewportView(textArea);
             
-            jTabbedPane1.addTab(file.getName(), textArea);
+            jTabFiles.addTab(file.getName(), textArea);
             //manageFiles(files);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        
         try{
             JFileChooser file = new JFileChooser();
             file.showSaveDialog(this);
             File saveFile =file.getSelectedFile();
             if(saveFile !=null){
-                int index = jTabbedPane1.getSelectedIndex();
-                JTextPane textArea = (JTextPane) jTabbedPane1.getComponent(index);
-                /*guardamos el archivo y le damos el formato directamente,
-                 * si queremos que se guarde en formato doc lo definimos como .doc*/
-                 FileWriter  save = new FileWriter(saveFile+".txt");
+                int index = jTabFiles.getSelectedIndex();
+                JTextPane textArea = (JTextPane) jTabFiles.getComponent(index);
+                /** Si queremos que se guarde en algun formato lo definimos.
+                 * Ejemplo: *.doc*/
+                 FileWriter  save = new FileWriter(saveFile);
                  save.write(textArea.getText());
                  save.close();
-                 jTabbedPane1.setTitleAt(index, saveFile.getName());
+                 jTabFiles.setTitleAt(index, saveFile.getName());
                  JOptionPane.showMessageDialog(null,
                       "El archivo se a guardado Exitosamente",
                           "Información",JOptionPane.INFORMATION_MESSAGE);
+                 /* Se guarda el path del archivo guardado */
+                 listPaths.put(saveFile.getName(), saveFile.getPath());
             }
         }
          catch(IOException ex){
@@ -246,13 +301,112 @@ public class Main extends javax.swing.JFrame {
                "Su archivo no se ha guardado",
                   "Advertencia",JOptionPane.WARNING_MESSAGE);
          }
-        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         JTextPane textArea = new JTextPane();
-        jTabbedPane1.addTab("File*", textArea);
+        jTabFiles.addTab("File*", textArea);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        try{
+            int index = jTabFiles.getSelectedIndex();
+            String name = jTabFiles.getTitleAt(index);
+            //System.out.println(this.listPaths.get(name));
+            /*Si no se guardo el archivo se perdera la informacion escrita*/
+            if(listPaths.get(name) == null 
+                    && !((JTextPane)jTabFiles.getComponentAt(index)).getText().isEmpty()){
+                JOptionPane.showMessageDialog(null,
+               "No ha guardado el texto",
+                  "Advertencia",JOptionPane.WARNING_MESSAGE);
+            }else{
+                this.listPaths.remove(name);
+                jTabFiles.remove(index);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+               "Problemas para cerrar el archivo",
+                  "Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void auxjButton1ActionPerformed(){
+        //muestra el resultado en terminal
+          jPanelTerminalConsole.setText(resConsole);
+          jPanelTerminalFlex.setText(resLexer);
+          jPanelTerminalTable.setText(resTable);
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+        int index = jTabFiles.getSelectedIndex();
+        String file = listPaths.get(jTabFiles.getTitleAt(index));    
+        
+        String reporte = "";
+        FileInputStream f = new FileInputStream( file );
+        Yylex lexer = new Yylex( f );
+        Parser p = new Parser( lexer );
+        p.setTable();// instancia la tabla
+        p.parse();
+        
+        if( p.Exito() ) {
+          reporte += "Parser sin problemas\n";
+          Documento resultado = p.getDocumento();
+          reporte += resultado.imprimirReporte();
+          
+          //copia el resultado para variables globales de Terminal
+          this.resConsole = reporte;
+          this.resLexer = lexer.printListLexer();
+          this.resTable = p.table.printSymbolTable();
+          //muestra en Terminal los resultados
+          auxjButton1ActionPerformed();
+        }else{
+            reporte += "Problema con el parser";
+            //copia el resultado para consola
+            this.resConsole = reporte;
+            this.resLexer = lexer.printListLexer();
+            this.resTable = p.table.printSymbolTable();
+            
+            //muestra en Terminal los resultados
+          auxjButton1ActionPerformed();
+        }
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      } finally {
+      }
+    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jTabsTerminalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabsTerminalMouseClicked
+        /*int index = jTabsTerminal.getSelectedIndex();
+        
+        try{
+            switch(index){
+                case 0://Cuando selecciona Console
+                    jPanelTerminalConsole.setText(resConsole);
+                    break;
+                case 1://cuando selecciona Lexer
+                    jPanelTerminalFlex.setText(resLexer);
+                    
+                    break;
+                case 2://cuando selecciona Table
+                    jPanelTerminalTable.setText(resTable);
+                    break;
+                default:
+                    break;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+               "Ocurrio un error en el programa.\n"
+                       + "Vuelva a intentar.",
+                  "Advertencia",JOptionPane.WARNING_MESSAGE);
+        } */       
+    }//GEN-LAST:event_jTabsTerminalMouseClicked
 
     /**
      * @param args the command line arguments
@@ -290,6 +444,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenu jMenu1;
@@ -299,15 +454,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JTextPane jPanelTerminalConsole;
+    private javax.swing.JTextPane jPanelTerminalFlex;
+    private javax.swing.JTextPane jPanelTerminalTable;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTextPane jTextPane2;
-    private javax.swing.JTextPane jTextPane3;
-    private javax.swing.JTextPane jTextPane4;
+    private javax.swing.JTabbedPane jTabFiles;
+    private javax.swing.JTabbedPane jTabsTerminal;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
