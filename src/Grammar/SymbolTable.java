@@ -5,23 +5,34 @@
  */
 package Grammar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-
+/**
+ *
+ * @author Carol
+ */
 public class SymbolTable {
     
-    public Map<String, String> declareID;
+    public List intList;
     public Map<String, String> assignID;
     
     public SymbolTable(){
-        declareID = new HashMap<String, String>(); //keyword, ID
+        intList = new ArrayList<>();
         assignID = new HashMap<String, String>(); //ID, valor
     }
     
-    public void putDeclareID(String keyword, String ID){
-        declareID.put(keyword, ID);
+    public void addType(String type, String ID){
+        switch (type){
+            case "int":
+                intList.add(ID);
+            default:
+                //error
+                
+        }
+        
     }
     
     public void putAssignID(String ID, String value){
@@ -32,23 +43,4 @@ public class SymbolTable {
         return assignID.get(id);
     }
     
-    public String printSymbolTable(){
-        String out = "";
-        Iterator t = declareID.entrySet().iterator();
-        System.out.println("cantidad elementos "+declareID.size()+" "+assignID.size());
-        while(t.hasNext()){
-            Map.Entry entry = (Map.Entry)t.next();
-            String keyD = entry.getKey().toString();
-            String valueD = entry.getValue().toString();
-            System.out.println(keyD+" "+valueD);
-            //concatena
-            out+= "| "+keyD+" "+valueD;
-            //si se le asigno un valor
-            if(assignID.get(valueD)!= null){
-                out+=" := " + assignID.get(valueD);
-            }
-            out+="\n-----------\n";
-        }
-        return out;
-    }
 }
