@@ -1,0 +1,19 @@
+INICIO ::= DOC:d 
+
+
+
+DOC ::=   E:e | TK_ENTER | DOC:d TK_ENTER E:e | DOC:d TK_ENTER
+
+
+
+E ::=   E:e TK_MAS T:t | E:e TK_MENOS T:t | TK_TYPE:type TK_ID:id TK_PYC | TK_ID:id TK_ASSIGN TK_NUM:num TK_PYC | T:t 
+
+
+
+T ::=   T:t TK_POR F:f | T:t TK_DIV F:f | T:t TK_GREATER F:f TK_PYC | T:t TK_LESS F:f TK_PYC | T:t TK_EQUAL F:f TK_PYC
+
+        | T:t TK_DIFFERENT F:f TK_PYC | T:t TK_AND F:f TK_PYC | T:t TK_OR F:f TK_PYC | F:f 
+
+
+
+F ::= TK_NUM:num | TK_ID:id | TK_LPAREN E:e TK_RPAREN 
