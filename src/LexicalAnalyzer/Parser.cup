@@ -67,10 +67,13 @@ terminal TK_EQUAL;
 terminal TK_DIFFERENT;
 terminal TK_AND;
 terminal TK_OR;
+terminal TK_LKEY;
+terminal TK_RKEY;
 
 terminal String TK_NUM;
 terminal String TK_ID;
 terminal String TK_KEYWORD;
+terminal String TK_TYPE;
 
 non terminal INICIO;
 non terminal Documento DOC;
@@ -125,10 +128,10 @@ System.out.println("7");
           oper.setResta( e , t );
           RESULT = oper;
         :}
-      | TK_KEYWORD:key TK_ID:id TK_PYC
+      | TK_TYPE:type TK_ID:id TK_PYC
         {:
 System.out.println("h1");
-            table.putDeclareID(key, id);
+            table.addType(type, id);
             //falta validar que si el nombre de la variable se repite de error
         :}
 
