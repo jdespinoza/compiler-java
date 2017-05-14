@@ -1,0 +1,258 @@
+package LexicalAnalyzer;
+
+import java.util.*;
+import java_cup.runtime.Symbol;
+import Grammar.SymbolTable;
+
+import Grammar.*;
+
+parser code {:     
+
+  public void report_error(String message, Object info) {  
+  }  
+
+  public void syntax_error(Symbol s) 
+  {
+  }
+
+  public void unrecovered_syntax_error(Symbol s) throws  java.lang.Exception 
+  {   
+  }
+  
+  /* comunicacion con el exterior */
+  
+  private boolean mExito = false;
+  private Documento mDocumento = null;
+  public SymbolTable table = null;
+  
+  public boolean Exito()
+  {
+    return mExito;
+  }
+  
+  public void setExito( boolean pExito )
+  {
+    mExito = pExito;
+  }
+  
+  public void setDocumento( Documento pDocumento )
+  {
+    mDocumento = pDocumento;
+  }
+  
+  public Documento getDocumento()
+  {
+    return mDocumento;
+  }
+
+  public void setTable(){
+    table = new SymbolTable();
+ }
+  
+:}; 
+
+terminal TK_MAS;
+terminal TK_MENOS;
+terminal TK_POR;
+terminal TK_DIV;
+terminal TK_ASSIGN;
+
+terminal TK_LPAREN;
+terminal TK_RPAREN;
+terminal TK_ENTER;
+terminal TK_PYC;
+terminal TK_GREATER;
+terminal TK_LESS;
+terminal TK_EQUAL;
+terminal TK_DIFFERENT;
+terminal TK_AND;
+terminal TK_OR;
+terminal TK_LKEY;
+terminal TK_RKEY;
+
+terminal String TK_NUM;
+terminal String TK_ID;
+terminal String TK_KEYWORD_A;
+terminal String TK_KEYWORD_B;
+terminal String TK_TYPE;
+
+non terminal INICIO;
+non terminal Documento DOC;
+
+non terminal Expresion E;
+non terminal Expresion P;
+non terminal Expresion J;
+non terminal Expresion T;
+non terminal Expresion F;
+
+INICIO ::= DOC:d 
+          {:
+System.out.println("1");
+            parser.setDocumento( d );
+            parser.setExito( true );
+          :};
+
+DOC ::=   E:e 
+          {:
+System.out.println("2");
+            Documento d = new Documento();
+            d.agregarExpresion( e );
+            RESULT = d;
+          :}
+        | TK_ENTER
+          {:
+System.out.println("3");
+            Documento d = new Documento();
+            RESULT = d;
+          :}
+        | DOC:d TK_ENTER E:e
+          {:
+System.out.println("4");
+            d.agregarExpresion( e );
+            RESULT = d;
+          :}
+        | DOC:d TK_ENTER
+          {:
+System.out.println("5");
+            RESULT = d;
+          :};
+
+E ::= TK_TYPE:type TK_ID:id TK_PYC
+        {:
+System.out.println("h1");
+            table.addType(type, id);
+            //falta validar que si el nombre de la variable se repite de error
+        :}
+
+      | TK_ID:id TK_ASSIGN TK_NUM:num TK_PYC
+        {:
+System.out.println("h2");
+            table.putAssignID(id, num);
+        :}
+      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY 
+        {:
+System.out.println("if");
+        ExpresionLiteral ifExp = new ExpresionLiteral();
+        if(ifExp.evaluateKeyword(key, (ExpresionBinaria)j)){
+System.out.println("entro al keyword");
+            RESULT = j;
+        }else{
+System.out.println("NO entro al keyword");
+RESULT = j;
+        }
+        //RESULT = null;
+        :}
+      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
+        {:
+        :};
+
+P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
+        {:
+System.out.println("entro al else");
+        //RESULT = e;
+        :};
+
+J ::=   J:j TK_MAS T:t 
+        {:
+System.out.println("6");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setSuma( j , t );
+          RESULT = oper;
+        :}
+        | J:j TK_MENOS T:t 
+        {:
+System.out.println("7");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setResta( j , t );
+          RESULT = oper;
+        :}
+        | T:t
+        {:
+System.out.println("8");
+          RESULT = t;
+        :};
+      
+T ::=   T:t TK_POR F:f 
+        {:
+System.out.println("9");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setMulti( t , f );
+          RESULT = oper;
+        :}
+      | T:t TK_DIV F:f 
+        {:
+System.out.println("10");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setDiv( t , f );
+          RESULT = oper;
+        :}
+      | T:t TK_GREATER F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setGreater( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_LESS F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setLess( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_EQUAL F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setEqual( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_DIFFERENT F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setDifferent( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_AND F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setAND( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_OR F:f
+        {:
+          System.out.println("OP");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setOR( t, f );
+          RESULT = oper;
+        :}
+      | F:f 
+        {:
+System.out.println("11");
+          RESULT = f;
+        :};
+      
+F ::= TK_NUM:num 
+      {:
+System.out.println("12");
+        ExpresionLiteral numero = new ExpresionLiteral();
+        numero.setLiteral( num );
+        RESULT = numero;
+      :}
+    | TK_ID:id
+      {:
+System.out.println("h3");
+System.out.println("id = " + id+ "value" + table.getValue(id));
+        ExpresionLiteral numero = new ExpresionLiteral();
+        numero.setLiteral( table.getValue(id) );
+        RESULT = numero;
+      :}
+    | TK_LPAREN J:j TK_RPAREN 
+      {:
+System.out.println("13");
+        j.setParentesis(true);
+        RESULT = j;
+      :};
+      

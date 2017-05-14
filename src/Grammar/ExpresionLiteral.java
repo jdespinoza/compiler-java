@@ -4,6 +4,7 @@ public class ExpresionLiteral extends Expresion {
   
   // cadena de digitos devuelta por el escaner.
   private String mLiteral = null;
+  private TipoDeExpresionLiteral mTipo = null;
   
   public ExpresionLiteral() {
   }
@@ -39,6 +40,58 @@ public class ExpresionLiteral extends Expresion {
 
   public String getLiteral() {
     return mLiteral;
+  }
+  
+  public boolean evaluateKeyword (String key, ExpresionBinaria e){
+      boolean res = false;
+      switch (key){
+          case "if":
+              res = evaluateIf(e);
+              break;
+          case "while":
+              res = evaluateWhile(e);
+              break;
+          default:
+      }
+      return res;
+  }
+  
+  public boolean evaluateIf(ExpresionBinaria e){
+      boolean res;
+      Integer valor = e.evaluar();
+      if (valor > 0){
+          res = true;
+      }else{
+          res = false;
+      }
+      return res;
+  }
+  
+  public boolean evaluateWhile(ExpresionBinaria e){
+      boolean res = false;
+      Integer valor = e.evaluar();
+      ExpresionLiteral aux = new ExpresionLiteral();
+      while(valor>0){
+          valor = e.mLi.evaluar() - 1;
+          aux.setLiteral(Integer.toString(valor));
+          e.mLi = aux;
+          valor = e.evaluar();
+          res=true;
+          System.out.println("while");
+      }
+      return res;
+  }
+  
+  public void setIf(){
+      setTipo(TipoDeExpresionLiteral.IF);
+  }
+  
+  public void setTipo(ExpresionLiteral.TipoDeExpresionLiteral mTipo) {
+    this.mTipo = mTipo;
+  }
+  
+  public enum TipoDeExpresionLiteral {
+    IF
   }
   
 }

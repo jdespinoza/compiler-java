@@ -2,8 +2,8 @@ package Grammar;
 
 public class ExpresionBinaria extends Expresion {
   
-  private Expresion mLi = null;
-  private Expresion mLd = null;
+  public Expresion mLi = null;
+  public Expresion mLd = null;
   private TipoDeExpresionBinaria mTipo = null;
   
   public ExpresionBinaria() {
@@ -88,17 +88,17 @@ public class ExpresionBinaria extends Expresion {
             res = 0;
         }
     }else if(mTipo == TipoDeExpresionBinaria.AND){
-        /*if (valI && valD){
+        if (valI > 0 && valD > 0){
             res = 1;
         } else{
             res = 0;
-        }*/
+        }
     }else if(mTipo == TipoDeExpresionBinaria.OR){
-        /*if (valI || valD){
+        if (valI > 0 || valD > 0){
             res = 1;
         } else{
             res = 0;
-        }*/
+        }
     }
     
     return res;
