@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Grammar;
 
 import java.util.ArrayList;
@@ -10,13 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- *
- * @author Carol
- */
 public class SymbolTable {
-    
-    public List intList;
+    public List intList;//lista de int
     public Map<String, String> assignID;
     
     public SymbolTable(){
@@ -28,20 +19,35 @@ public class SymbolTable {
         switch (type){
             case "int":
                 intList.add(ID);
-                break;
             default:
-                //error
-                
+                //error        
         }
-        
     }
     
     public void putAssignID(String ID, String value){
-        assignID.put(ID, value);
+        if(intList.contains(ID)){//si ID esta en la lista
+            assignID.put(ID, value);
+        }
+        else{
+            System.out.println("El ID "+ID+" no ha sido declarado.");
+        }
     }
     
     public String getValue(String id){
         return assignID.get(id);
     }
     
+    public String printSymbolTable(){
+        String out = "";
+        int len = intList.size();
+        for(int i = 0; i < len; i++){
+            out+="| int "+intList.get(i);
+            if(assignID.get(intList.get(i).toString()) != null){
+                out+=" := "+assignID.get(intList.get(i).toString());
+            }
+            out+=" |\n----------\n";
+        }
+        return out;
+    }
 }
+    
