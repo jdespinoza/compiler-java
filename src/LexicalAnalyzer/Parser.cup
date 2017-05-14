@@ -72,13 +72,16 @@ terminal TK_RKEY;
 
 terminal String TK_NUM;
 terminal String TK_ID;
-terminal String TK_KEYWORD;
+terminal String TK_KEYWORD_A;
+terminal String TK_KEYWORD_B;
 terminal String TK_TYPE;
 
 non terminal INICIO;
 non terminal Documento DOC;
 
 non terminal Expresion E;
+non terminal Expresion P;
+non terminal Expresion J;
 non terminal Expresion T;
 non terminal Expresion F;
 
@@ -114,21 +117,7 @@ System.out.println("5");
             RESULT = d;
           :};
 
-E ::=   E:e TK_MAS T:t 
-        {:
-System.out.println("6");
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setSuma( e , t );
-          RESULT = oper;
-        :}
-      | E:e TK_MENOS T:t 
-        {:
-System.out.println("7");
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setResta( e , t );
-          RESULT = oper;
-        :}
-      | TK_TYPE:type TK_ID:id TK_PYC
+E ::= TK_TYPE:type TK_ID:id TK_PYC
         {:
 System.out.println("h1");
             table.addType(type, id);
@@ -140,8 +129,44 @@ System.out.println("h1");
 System.out.println("h2");
             table.putAssignID(id, num);
         :}
+      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY 
+        {:
+System.out.println("if");
+        ExpresionLiteral ifExp = new ExpresionLiteral();
+        if(ifExp.evaluateKeyword(key, (ExpresionBinaria)j)){
+System.out.println("entro al keyword");
+            RESULT = j;
+        }else{
+System.out.println("NO entro al keyword");
+RESULT = j;
+        }
+        //RESULT = null;
+        :}
+      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
+        {:
+        :};
 
-      | T:t 
+P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
+        {:
+System.out.println("entro al else");
+        //RESULT = e;
+        :};
+
+J ::=   J:j TK_MAS T:t 
+        {:
+System.out.println("6");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setSuma( j , t );
+          RESULT = oper;
+        :}
+        | J:j TK_MENOS T:t 
+        {:
+System.out.println("7");
+          ExpresionBinaria oper = new ExpresionBinaria();
+          oper.setResta( j , t );
+          RESULT = oper;
+        :}
+        | T:t
         {:
 System.out.println("8");
           RESULT = t;
@@ -161,42 +186,42 @@ System.out.println("10");
           oper.setDiv( t , f );
           RESULT = oper;
         :}
-      | T:t TK_GREATER F:f TK_PYC
+      | T:t TK_GREATER F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
           oper.setGreater( t, f );
           RESULT = oper;
         :}
-      | T:t TK_LESS F:f TK_PYC
+      | T:t TK_LESS F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
           oper.setLess( t, f );
           RESULT = oper;
         :}
-      | T:t TK_EQUAL F:f TK_PYC
+      | T:t TK_EQUAL F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
           oper.setEqual( t, f );
           RESULT = oper;
         :}
-      | T:t TK_DIFFERENT F:f TK_PYC
+      | T:t TK_DIFFERENT F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
           oper.setDifferent( t, f );
           RESULT = oper;
         :}
-      | T:t TK_AND F:f TK_PYC
+      | T:t TK_AND F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
           oper.setAND( t, f );
           RESULT = oper;
         :}
-      | T:t TK_OR F:f TK_PYC
+      | T:t TK_OR F:f
         {:
           System.out.println("OP");
           ExpresionBinaria oper = new ExpresionBinaria();
@@ -224,10 +249,10 @@ System.out.println("id = " + id+ "value" + table.getValue(id));
         numero.setLiteral( table.getValue(id) );
         RESULT = numero;
       :}
-    | TK_LPAREN E:e TK_RPAREN 
+    | TK_LPAREN J:j TK_RPAREN 
       {:
 System.out.println("13");
-        e.setParentesis(true);
-        RESULT = e;
+        j.setParentesis(true);
+        RESULT = j;
       :};
       
