@@ -51,6 +51,9 @@ public class ExpresionLiteral extends Expresion {
           case "while":
               res = evaluateWhile(e);
               break;
+          //case "putw":
+              //res = evaluatePutW(e);
+            //  break;
           default:
       }
       return res;
@@ -80,6 +83,23 @@ public class ExpresionLiteral extends Expresion {
           System.out.println("while");
       }
       return res;
+  }
+  
+ /* public boolean evaluatePutW(ExpresionBinaria e){
+      boolean res = false;
+      Integer aux = e.evaluar();
+      System.out.print(aux);
+      return res;
+  }
+  */
+   public void evaluatePutW(Expresion e){
+       try{
+           ExpresionBinaria bin = (ExpresionBinaria)e;
+           System.out.print("evaluar1 = " +bin.evaluar()+ "\n");
+       }catch(Exception a){
+           System.out.print("evaluar2 = " +e.evaluar()+ "\n");
+       }
+      
   }
   
   public void setIf(){
