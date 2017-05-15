@@ -1,0 +1,9 @@
+1-
+no reconoce ¡=
+hipotesis: el signo ¡ signifique algo en jflex o cup
+
+2-
+Validar que una variable ya este declarada antes de asignar un valor a esa variable
+
+3-
+Dar vuelta a los resultados, ya que los da del ultimo al primero
