@@ -72,6 +72,7 @@ terminal TK_RKEY;
 
 terminal String TK_NUM;
 terminal String TK_ID;
+terminal String TK_FUNCTION;
 terminal String TK_KEYWORD_A;
 terminal String TK_KEYWORD_B;
 terminal String TK_TYPE;
@@ -144,6 +145,11 @@ RESULT = j;
         :}
       | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
         {:
+        :}
+      | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC
+        {:
+            ExpresionLiteral putw = new ExpresionLiteral();
+            putw.evaluatePutW(j);
         :};
 
 P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
