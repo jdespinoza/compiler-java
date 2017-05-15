@@ -27,7 +27,7 @@ public class Documento {
             res.append(temp.toString() + "   :=   " + temp.evaluar() );
             res.append("\n");
       }catch(Exception excepcion){
-            System.err.println("Error");
+            //System.err.println("Error");
       }
     }
     
