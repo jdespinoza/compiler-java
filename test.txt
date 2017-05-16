@@ -1,5 +1,11 @@
-int num;
-num = 10;
-int num2;
-num2 = 10;
-num == num2;
+main(){
+	int num;
+	num = 1;
+     puts("abss");
+	num = num +3;
+	if(num<7){
+		int num2; if (num < 8){
+			putw(num);
+		}
+	}
+}
