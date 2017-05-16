@@ -101,6 +101,10 @@ public class ExpresionLiteral extends Expresion {
        }
       
   }
+   
+  public void evaluatePutS(String s){
+      System.out.println(s);
+  }
   
   public void setIf(){
       setTipo(TipoDeExpresionLiteral.IF);
