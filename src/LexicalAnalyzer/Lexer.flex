@@ -3,7 +3,6 @@ package LexicalAnalyzer;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import static LexicalAnalyzer.sym.terminalNames;
-
 %%
 
 %unicode
@@ -17,8 +16,7 @@ import static LexicalAnalyzer.sym.terminalNames;
 %eofval}
 
 %{
-
- public ArrayList<Symbol> listLexer = new ArrayList<>();
+public ArrayList<Symbol> listLexer = new ArrayList<>();
 
  public Yylex(java.io.InputStream in) {
     this(new java.io.InputStreamReader(in));
@@ -47,26 +45,43 @@ import static LexicalAnalyzer.sym.terminalNames;
  public ArrayList<Symbol> getListLexer(){
     return listLexer;
  }
+
 %} 
 
 NUMBER_LEXER = [0-9]+
 WHITESPACE_LEXER = [ \t]
 ENTER_LEXER = [\r\n]+
 IDENTIFIER_LEXER = [a-zA-Z][a-zA-Z0-9]*
-KEYWORD_LEXER = "if"|"else"
+KEYWORD_A_LEXER = "if"|"while"
+KEYWORD_B_LEXER = "else"
+MAIN_LEXER = "main"
+FUNCTION_LEXER = "puts"|"putw"
 TYPE_LEXER = "int"
-OPERATOR_LEXER = ">"|"<"|"=="|"¡="|"&&"|"||"
-
+STRING_LEXER = "\""[a-zA-Z0-9][a-zA-Z0-9 ]*"\""
 %% 
-
 {WHITESPACE_LEXER} {}
 
 {ENTER_LEXER} { return new Symbol(sym.TK_ENTER); }
-
-{KEYWORD_LEXER} {
-                  Symbol n = new Symbol(sym.TK_KEYWORD, yyline, yycolumn, yytext());
+{MAIN_LEXER} {
+                  Symbol n = new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());
                   listLexer.add(n);
                   return n;  
+                }
+{KEYWORD_A_LEXER} {
+                  Symbol n = new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());
+                  listLexer.add(n);
+                  return n;  
+                }
+
+{KEYWORD_B_LEXER} {
+                  Symbol n = new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());
+                  listLexer.add(n);
+                  return n;  
+                }
+{FUNCTION_LEXER} {
+                  Symbol n = new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());
+                  listLexer.add(n);
+                  return n;
                 }
 
 {TYPE_LEXER} {
@@ -82,6 +97,11 @@ OPERATOR_LEXER = ">"|"<"|"=="|"¡="|"&&"|"||"
 
 {NUMBER_LEXER} {    
                     Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
+                    listLexer.add(n);
+                    return n;
+               }
+{STRING_LEXER} {
+                    Symbol n = new Symbol(sym.TK_STRING, yyline, yycolumn, yytext());
                     listLexer.add(n);
                     return n;
                }
@@ -169,5 +189,19 @@ OPERATOR_LEXER = ">"|"<"|"=="|"¡="|"&&"|"||"
                     listLexer.add(n);
                     return n;
                 }
+
+"{"             {
+                    Symbol n = new Symbol(sym.TK_LKEY);
+                    listLexer.add(n);
+                    return n;
+                }
+
+"}"             {
+                    Symbol n = new Symbol(sym.TK_RKEY);
+                    listLexer.add(n);
+                    return n;
+                }
+
+//"\'"             {                    Symbol n = new Symbol(sym.TK_COMM);                   return n;               }
 
 .               {  }
