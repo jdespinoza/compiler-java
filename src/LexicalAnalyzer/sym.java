@@ -8,24 +8,31 @@ package LexicalAnalyzer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int TK_NUM = 17;
+  public static final int TK_NUM = 19;
   public static final int TK_LPAREN = 7;
   public static final int TK_GREATER = 11;
   public static final int TK_LESS = 12;
   public static final int TK_DIV = 5;
+  public static final int TK_STRING = 21;
   public static final int TK_MENOS = 3;
   public static final int TK_EQUAL = 13;
   public static final int TK_DIFFERENT = 14;
+  public static final int TK_KEYWORD_B = 24;
+  public static final int TK_KEYWORD_A = 23;
+  public static final int TK_RKEY = 18;
   public static final int TK_MAS = 2;
   public static final int EOF = 0;
   public static final int TK_ENTER = 9;
+  public static final int TK_FUNCTION = 22;
+  public static final int TK_LKEY = 17;
   public static final int TK_AND = 15;
   public static final int TK_OR = 16;
   public static final int error = 1;
   public static final int TK_PYC = 10;
-  public static final int TK_KEYWORD = 19;
+  public static final int TK_TYPE = 25;
+  public static final int TK_MAIN = 26;
   public static final int TK_RPAREN = 8;
-  public static final int TK_ID = 18;
+  public static final int TK_ID = 20;
   public static final int TK_ASSIGN = 6;
   public static final int TK_POR = 4;
   public static final String[] terminalNames = new String[] {
@@ -46,9 +53,16 @@ public class sym {
   "TK_DIFFERENT",
   "TK_AND",
   "TK_OR",
+  "TK_LKEY",
+  "TK_RKEY",
   "TK_NUM",
   "TK_ID",
-  "TK_KEYWORD"
+  "TK_STRING",
+  "TK_FUNCTION",
+  "TK_KEYWORD_A",
+  "TK_KEYWORD_B",
+  "TK_TYPE",
+  "TK_MAIN"
   };
 }
 
