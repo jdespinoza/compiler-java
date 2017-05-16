@@ -72,6 +72,7 @@ terminal TK_RKEY;
 
 terminal String TK_NUM;
 terminal String TK_ID;
+terminal String TK_STRING;
 terminal String TK_FUNCTION;
 terminal String TK_KEYWORD_A;
 terminal String TK_KEYWORD_B;
@@ -143,10 +144,10 @@ E ::= TK_TYPE:type TK_ID:id TK_PYC
         {:
         ExpresionLiteral Exp = new ExpresionLiteral();
         if(Exp.evaluateKeyword(key, (ExpresionBinaria)j)){
-System.out.println("entro al keyword");
+            System.out.println("entro al keyword");
             RESULT = j;
         }else{
-System.out.println("NO entro al keyword");
+            System.out.println("NO entro al keyword\t"+key);
 RESULT = j;
         }
         //RESULT = null;
@@ -158,12 +159,25 @@ RESULT = j;
         {:
             ExpresionLiteral putw = new ExpresionLiteral();
             putw.evaluatePutW(j);
+            System.out.println("acepta put");
         :}
       | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC E:e
         {:
             ExpresionLiteral putw = new ExpresionLiteral();
             putw.evaluatePutW(j);
-        :};
+            System.out.println("acepta put");
+        :}
+       | TK_FUNCTION:function TK_LPAREN TK_STRING:s  TK_RPAREN TK_PYC
+          {:
+                ExpresionLiteral puts = new ExpresionLiteral();
+                puts.evaluatePutS(s);
+          :}
+      | TK_FUNCTION:function TK_LPAREN TK_STRING:s TK_RPAREN TK_PYC E:e
+          {:
+                ExpresionLiteral puts = new ExpresionLiteral();
+                puts.evaluatePutS(s);
+          :};
+
 
 P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
         {:
