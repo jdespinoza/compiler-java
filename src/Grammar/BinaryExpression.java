@@ -27,7 +27,19 @@ public class BinaryExpression extends Expression {
       op = "*";
     } else if( mType == TypeBinaryExpression.Division) {
       op = "/";
-    }
+    } else if( mType == TypeBinaryExpression.AND) {
+      op = "&&";
+    } else if( mType == TypeBinaryExpression.OR) {
+      op = "||";
+    } else if( mType == TypeBinaryExpression.Equal) {
+      op = "==";
+    } else if( mType == TypeBinaryExpression.Different) {
+      op = "¡=";
+    } else if( mType == TypeBinaryExpression.Greater) {
+      op = ">";
+    } else if( mType == TypeBinaryExpression.Less) {
+      op = "<";
+    } 
     
     if( mParenthesis ) {
       return "( " + li + " " + op + " " + ld + " )";  
@@ -42,59 +54,57 @@ public class BinaryExpression extends Expression {
       return 0;
     }
     
-    Integer valL = mLi.evaluate();
-    Integer valR = mLd.evaluate();
+    Integer valI = mLi.evaluate();
+    Integer valD = mLd.evaluate();
     
     Integer res = 0;
     
     if( mType == TypeBinaryExpression.Suma ) {
-      res = valL + valR;      
+      res = valI + valD;      
     } else if( mType == TypeBinaryExpression.Resta ) {
-      res = valL - valR;
+      res = valI - valD;
     } else if( mType == TypeBinaryExpression.Multiplicacion ) {
-      res = valL * valR;
+      res = valI * valD;
     } else if( mType == TypeBinaryExpression.Division) {
-      if( valR != 0 )
+      if( valD != 0 )
       {
-        res = valL / valR;
+        res = valI / valD;
       } else {
         //problema con cero
-        
+        res = 0;
       }
     } else if(mType == TypeBinaryExpression.Greater) {
-        if (valL > valR){
+        if (valI > valD){
             res = 1;
-            System.out.println("Hola: 1");
         } else{
             res = 0;
-            System.out.println("Hola: 0");
         }
     }else if(mType == TypeBinaryExpression.Less){
-        if (valL < valR){
+        if (valI < valD){
             res = 1;
         } else{
             res = 0;
         }
     }else if(mType == TypeBinaryExpression.Equal){
-        if (valL == valR){
+        if (valI == valD){
             res = 1;
         } else{
             res = 0;
         }
     }else if(mType == TypeBinaryExpression.Different){
-        if (valL != valR){
+        if (valI != valD){
             res = 1;
         } else{
             res = 0;
         }
     }else if(mType == TypeBinaryExpression.AND){
-        if (valL > 0 && valR > 0){
+        if (valI > 0 && valD > 0){
             res = 1;
         } else{
             res = 0;
         }
     }else if(mType == TypeBinaryExpression.OR){
-        if (valL > 0 || valR > 0){
+        if (valI > 0 || valD > 0){
             res = 1;
         } else{
             res = 0;
