@@ -61,147 +61,127 @@ STRING_LEXER = "\""[a-zA-Z0-9][a-zA-Z0-9 ]*"\""
 %% 
 {WHITESPACE_LEXER} {}
 
-{ENTER_LEXER} { return new Symbol(sym.TK_ENTER); }
-{MAIN_LEXER} {
-                  Symbol n = new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;  
-                }
-{KEYWORD_A_LEXER} {
-                  Symbol n = new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;  
-                }
+{ENTER_LEXER}       { return new Symbol(sym.TK_ENTER); }
+{MAIN_LEXER}        {
+                      Symbol n = new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());
+                      listLexer.add(n);
+                      return n;  
+                    }
+{KEYWORD_A_LEXER}   {
+                      Symbol n = new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());
+                      listLexer.add(n);
+                      return n;  
+                    }
 
-{KEYWORD_B_LEXER} {
-                  Symbol n = new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;  
-                }
-{FUNCTION_LEXER} {
-                  Symbol n = new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
-                }
+{KEYWORD_B_LEXER}     {
+                        Symbol n = new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;  
+                      }
+{FUNCTION_LEXER}      {
+                        Symbol n = new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
+                      }
+{TYPE_LEXER}          {
+                        Symbol n = new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;  
+                      }
+{IDENTIFIER_LEXER}    {
+                        Symbol n = new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
+                      }
 
-{TYPE_LEXER} {
-                  Symbol n = new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;  
-                }
-{IDENTIFIER_LEXER} {
-                    Symbol n = new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
-                }
-
-{NUMBER_LEXER} {    
-                    Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
-               }
-{STRING_LEXER} {
-                    Symbol n = new Symbol(sym.TK_STRING, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
-               }
-
-"+"             {    
-                  Symbol n = new Symbol(sym.TK_MAS);
-                  listLexer.add(n);
-                  return n;
-                }
-
-"-"		{ 
-                  Symbol n = new Symbol(sym.TK_MENOS);
-                  listLexer.add(n);
-                  return n;
-                }
-
-"*"		{          
-                  Symbol n = new Symbol(sym.TK_POR);
-                  listLexer.add(n);
-                  return n;
-                }
-
-"/"		{   
-                  Symbol n = new Symbol(sym.TK_DIV);
-                  listLexer.add(n);
-                  return n;
-                }
-
-"("		{  
-                  Symbol n = new Symbol(sym.TK_LPAREN);
-                  listLexer.add(n);
-                  return n;                  
-                }
-
-")"             { 
-                  Symbol n = new Symbol(sym.TK_RPAREN);
-                  listLexer.add(n);
-                  return n;
-                }
-
-"="             {
-                    Symbol n = new Symbol(sym.TK_ASSIGN);
-                    listLexer.add(n);
-                    return n;
-                }
-
-">"             {
-                    Symbol n = new Symbol(sym.TK_GREATER);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"<"             {
-                    Symbol n = new Symbol(sym.TK_LESS);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"=="            {
-                    Symbol n = new Symbol(sym.TK_EQUAL);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"¡="            {
-                    Symbol n = new Symbol(sym.TK_DIFFERENT);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"&&"            {
-                    Symbol n = new Symbol(sym.TK_AND);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"||"            {
-                    Symbol n = new Symbol(sym.TK_OR);
-                    listLexer.add(n);
-                    return n;
-                }
-
-";"             {
-                    Symbol n = new Symbol(sym.TK_PYC);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"{"             {
-                    Symbol n = new Symbol(sym.TK_LKEY);
-                    listLexer.add(n);
-                    return n;
-                }
-
-"}"             {
-                    Symbol n = new Symbol(sym.TK_RKEY);
-                    listLexer.add(n);
-                    return n;
-                }
-
-//"\'"             {                    Symbol n = new Symbol(sym.TK_COMM);                   return n;               }
-
-.               {  }
+{NUMBER_LEXER}        {    
+                        Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
+                      }
+{STRING_LEXER}        {
+                        Symbol n = new Symbol(sym.TK_STRING, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
+                      }
+"+"                   {    
+                        Symbol n = new Symbol(sym.TK_MAS);
+                        listLexer.add(n);
+                        return n;
+                      }
+"-"		      { 
+                        Symbol n = new Symbol(sym.TK_MENOS);
+                        listLexer.add(n);
+                        return n;
+                      }
+"*"                   {          
+                        Symbol n = new Symbol(sym.TK_POR);
+                        listLexer.add(n);
+                        return n;
+                      }
+"/"                   {   
+                        Symbol n = new Symbol(sym.TK_DIV);
+                        listLexer.add(n);
+                        return n;
+                      }
+"("		      {  
+                        Symbol n = new Symbol(sym.TK_LPAREN);
+                        listLexer.add(n);
+                        return n;                  
+                      }
+")"                   { 
+                        Symbol n = new Symbol(sym.TK_RPAREN);
+                        listLexer.add(n);
+                        return n;
+                      }
+"="                   {
+                        Symbol n = new Symbol(sym.TK_ASSIGN);
+                        listLexer.add(n);
+                        return n;
+                      }
+">"                   {
+                        Symbol n = new Symbol(sym.TK_GREATER);
+                        listLexer.add(n);
+                        return n;
+                      }
+"<"                   {
+                        Symbol n = new Symbol(sym.TK_LESS);
+                        listLexer.add(n);
+                        return n;
+                      }
+"=="                  {
+                        Symbol n = new Symbol(sym.TK_EQUAL);
+                        listLexer.add(n);
+                        return n;
+                      }
+"¡="                  {
+                        Symbol n = new Symbol(sym.TK_DIFFERENT);
+                        listLexer.add(n);
+                        return n;
+                      }
+"&&"                  {
+                        Symbol n = new Symbol(sym.TK_AND);
+                        listLexer.add(n);
+                        return n;
+                      }
+"||"                  {
+                        Symbol n = new Symbol(sym.TK_OR);
+                        listLexer.add(n);
+                        return n;
+                      }
+";"                   {
+                        Symbol n = new Symbol(sym.TK_PYC);
+                        listLexer.add(n);
+                        return n;
+                      }
+"{"                   {
+                        Symbol n = new Symbol(sym.TK_LKEY);
+                        listLexer.add(n);
+                        return n;
+                      }
+"}"                   {
+                        Symbol n = new Symbol(sym.TK_RKEY);
+                        listLexer.add(n);
+                        return n;
+                      }
+.                     { /*Ignora*/ }

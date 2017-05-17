@@ -36,12 +36,12 @@ public class Yylex implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\0\1\2\1\42\1\42\1\2\22\0\1\22\1\0\1\21"+
-    "\3\0\1\35\1\0\1\27\1\30\1\25\1\23\1\0\1\24\1\0"+
-    "\1\26\12\1\1\0\1\37\1\33\1\31\1\32\2\0\32\3\6\0"+
-    "\1\14\3\3\1\11\1\5\1\3\1\7\1\4\2\3\1\10\1\13"+
-    "\1\15\1\3\1\16\2\3\1\12\1\20\1\17\1\3\1\6\3\3"+
-    "\1\40\1\36\1\41\7\0\1\42\33\0\1\34\u1f86\0\1\42\1\42"+
+    "\11\0\1\2\1\3\1\43\1\43\1\3\22\0\1\23\1\0\1\22"+
+    "\3\0\1\36\1\0\1\30\1\31\1\26\1\24\1\0\1\25\1\0"+
+    "\1\27\12\1\1\0\1\40\1\34\1\32\1\33\2\0\32\4\6\0"+
+    "\1\15\3\4\1\12\1\6\1\4\1\10\1\5\2\4\1\11\1\14"+
+    "\1\16\1\4\1\17\2\4\1\13\1\21\1\20\1\4\1\7\3\4"+
+    "\1\41\1\37\1\42\7\0\1\43\33\0\1\35\u1f86\0\1\43\1\43"+
     "\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
@@ -55,14 +55,14 @@ public class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\6\4\1\1\1\5\1\6"+
-    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\3\1"+
-    "\1\16\1\17\1\20\1\21\5\4\1\0\1\22\1\23"+
-    "\1\24\1\25\1\26\4\4\1\27\1\4\1\30\1\31"+
-    "\1\32";
+    "\1\0\1\1\1\2\1\3\1\4\6\5\1\1\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\3\1\1\17\1\20\1\21\1\22\5\5\1\0\1\23"+
+    "\1\24\1\25\1\26\1\27\4\5\1\30\1\5\1\31"+
+    "\1\32\1\33";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[47];
+    int [] result = new int[48];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -87,15 +87,15 @@ public class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\43\0\106\0\151\0\214\0\257\0\322\0\365"+
-    "\0\u0118\0\u013b\0\u015e\0\43\0\43\0\43\0\43\0\43"+
-    "\0\43\0\u0181\0\43\0\43\0\u01a4\0\u01c7\0\u01ea\0\43"+
-    "\0\43\0\43\0\214\0\u020d\0\u0230\0\u0253\0\u0276\0\u0299"+
-    "\0\u02bc\0\43\0\43\0\43\0\43\0\214\0\u02df\0\u0302"+
-    "\0\u0325\0\u0348\0\43\0\u036b\0\214\0\214\0\214";
+    "\0\0\0\44\0\110\0\44\0\154\0\220\0\264\0\330"+
+    "\0\374\0\u0120\0\u0144\0\u0168\0\44\0\44\0\44\0\44"+
+    "\0\44\0\44\0\u018c\0\44\0\44\0\u01b0\0\u01d4\0\u01f8"+
+    "\0\44\0\44\0\44\0\220\0\u021c\0\u0240\0\u0264\0\u0288"+
+    "\0\u02ac\0\u02d0\0\44\0\44\0\44\0\44\0\220\0\u02f4"+
+    "\0\u0318\0\u033c\0\u0360\0\44\0\u0384\0\220\0\220\0\220";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[47];
+    int [] result = new int[48];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -118,28 +118,28 @@ public class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\5\1\6\1\5\1\7\2\5"+
-    "\1\10\1\5\1\11\2\5\1\12\2\5\1\13\1\2"+
-    "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
-    "\1\24\1\25\1\26\1\27\1\30\1\31\1\32\45\0"+
-    "\1\3\43\0\1\4\41\0\1\5\1\0\16\5\23\0"+
-    "\1\5\1\0\2\5\1\33\7\5\1\34\3\5\23\0"+
-    "\1\5\1\0\4\5\1\35\11\5\23\0\1\5\1\0"+
-    "\5\5\1\36\10\5\23\0\1\5\1\0\11\5\1\37"+
-    "\4\5\23\0\1\5\1\0\14\5\1\40\1\5\23\0"+
-    "\1\41\1\0\16\41\53\0\1\42\42\0\1\43\46\0"+
-    "\1\44\43\0\1\45\5\0\1\5\1\0\15\5\1\46"+
-    "\23\0\1\5\1\0\1\5\1\47\14\5\23\0\1\5"+
-    "\1\0\7\5\1\50\6\5\23\0\1\5\1\0\1\5"+
-    "\1\51\14\5\23\0\1\5\1\0\15\5\1\52\23\0"+
-    "\1\41\1\0\16\41\1\53\1\41\21\0\1\5\1\0"+
-    "\5\5\1\54\10\5\23\0\1\5\1\0\6\5\1\55"+
-    "\7\5\23\0\1\5\1\0\12\5\1\56\3\5\23\0"+
-    "\1\5\1\0\3\5\1\57\3\5\1\57\6\5\23\0"+
-    "\1\5\1\0\6\5\1\33\7\5\22\0";
+    "\1\2\1\3\1\4\1\5\1\6\1\7\1\6\1\10"+
+    "\2\6\1\11\1\6\1\12\2\6\1\13\2\6\1\14"+
+    "\1\4\1\15\1\16\1\17\1\20\1\21\1\22\1\23"+
+    "\1\24\1\25\1\26\1\27\1\30\1\31\1\32\1\33"+
+    "\46\0\1\3\45\0\1\5\41\0\1\6\2\0\16\6"+
+    "\23\0\1\6\2\0\2\6\1\34\7\6\1\35\3\6"+
+    "\23\0\1\6\2\0\4\6\1\36\11\6\23\0\1\6"+
+    "\2\0\5\6\1\37\10\6\23\0\1\6\2\0\11\6"+
+    "\1\40\4\6\23\0\1\6\2\0\14\6\1\41\1\6"+
+    "\23\0\1\42\2\0\16\42\54\0\1\43\43\0\1\44"+
+    "\47\0\1\45\44\0\1\46\5\0\1\6\2\0\15\6"+
+    "\1\47\23\0\1\6\2\0\1\6\1\50\14\6\23\0"+
+    "\1\6\2\0\7\6\1\51\6\6\23\0\1\6\2\0"+
+    "\1\6\1\52\14\6\23\0\1\6\2\0\15\6\1\53"+
+    "\23\0\1\42\2\0\16\42\1\54\1\42\21\0\1\6"+
+    "\2\0\5\6\1\55\10\6\23\0\1\6\2\0\6\6"+
+    "\1\56\7\6\23\0\1\6\2\0\12\6\1\57\3\6"+
+    "\23\0\1\6\2\0\3\6\1\60\3\6\1\60\6\6"+
+    "\23\0\1\6\2\0\6\6\1\34\7\6\22\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[910];
+    int [] result = new int[936];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -177,11 +177,11 @@ public class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\11\1\6\11\1\1\2\11\3\1\3\11"+
-    "\6\1\1\0\4\11\5\1\1\11\4\1";
+    "\1\0\1\11\1\1\1\11\10\1\6\11\1\1\2\11"+
+    "\3\1\3\11\6\1\1\0\4\11\5\1\1\11\4\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[47];
+    int [] result = new int[48];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -674,157 +674,161 @@ public ArrayList<Symbol> listLexer = new ArrayList<>();
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { 
-            }
-          case 27: break;
-          case 2: 
-            { Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
+            { /*Ignora*/
             }
           case 28: break;
-          case 3: 
-            { return new Symbol(sym.TK_ENTER);
+          case 2: 
+            { Symbol n = new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
             }
           case 29: break;
-          case 4: 
-            { Symbol n = new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
+          case 3: 
+            { 
             }
           case 30: break;
-          case 5: 
-            { Symbol n = new Symbol(sym.TK_MAS);
-                  listLexer.add(n);
-                  return n;
+          case 4: 
+            { return new Symbol(sym.TK_ENTER);
             }
           case 31: break;
-          case 6: 
-            { Symbol n = new Symbol(sym.TK_MENOS);
-                  listLexer.add(n);
-                  return n;
+          case 5: 
+            { Symbol n = new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
             }
           case 32: break;
-          case 7: 
-            { Symbol n = new Symbol(sym.TK_POR);
-                  listLexer.add(n);
-                  return n;
+          case 6: 
+            { Symbol n = new Symbol(sym.TK_MAS);
+                        listLexer.add(n);
+                        return n;
             }
           case 33: break;
-          case 8: 
-            { Symbol n = new Symbol(sym.TK_DIV);
-                  listLexer.add(n);
-                  return n;
+          case 7: 
+            { Symbol n = new Symbol(sym.TK_MENOS);
+                        listLexer.add(n);
+                        return n;
             }
           case 34: break;
-          case 9: 
-            { Symbol n = new Symbol(sym.TK_LPAREN);
-                  listLexer.add(n);
-                  return n;
+          case 8: 
+            { Symbol n = new Symbol(sym.TK_POR);
+                        listLexer.add(n);
+                        return n;
             }
           case 35: break;
-          case 10: 
-            { Symbol n = new Symbol(sym.TK_RPAREN);
-                  listLexer.add(n);
-                  return n;
+          case 9: 
+            { Symbol n = new Symbol(sym.TK_DIV);
+                        listLexer.add(n);
+                        return n;
             }
           case 36: break;
-          case 11: 
-            { Symbol n = new Symbol(sym.TK_ASSIGN);
-                    listLexer.add(n);
-                    return n;
+          case 10: 
+            { Symbol n = new Symbol(sym.TK_LPAREN);
+                        listLexer.add(n);
+                        return n;
             }
           case 37: break;
-          case 12: 
-            { Symbol n = new Symbol(sym.TK_GREATER);
-                    listLexer.add(n);
-                    return n;
+          case 11: 
+            { Symbol n = new Symbol(sym.TK_RPAREN);
+                        listLexer.add(n);
+                        return n;
             }
           case 38: break;
-          case 13: 
-            { Symbol n = new Symbol(sym.TK_LESS);
-                    listLexer.add(n);
-                    return n;
+          case 12: 
+            { Symbol n = new Symbol(sym.TK_ASSIGN);
+                        listLexer.add(n);
+                        return n;
             }
           case 39: break;
-          case 14: 
-            { Symbol n = new Symbol(sym.TK_PYC);
-                    listLexer.add(n);
-                    return n;
+          case 13: 
+            { Symbol n = new Symbol(sym.TK_GREATER);
+                        listLexer.add(n);
+                        return n;
             }
           case 40: break;
-          case 15: 
-            { Symbol n = new Symbol(sym.TK_LKEY);
-                    listLexer.add(n);
-                    return n;
+          case 14: 
+            { Symbol n = new Symbol(sym.TK_LESS);
+                        listLexer.add(n);
+                        return n;
             }
           case 41: break;
-          case 16: 
-            { Symbol n = new Symbol(sym.TK_RKEY);
-                    listLexer.add(n);
-                    return n;
+          case 15: 
+            { Symbol n = new Symbol(sym.TK_PYC);
+                        listLexer.add(n);
+                        return n;
             }
           case 42: break;
-          case 17: 
-            { Symbol n = new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
+          case 16: 
+            { Symbol n = new Symbol(sym.TK_LKEY);
+                        listLexer.add(n);
+                        return n;
             }
           case 43: break;
-          case 18: 
-            { Symbol n = new Symbol(sym.TK_EQUAL);
-                    listLexer.add(n);
-                    return n;
+          case 17: 
+            { Symbol n = new Symbol(sym.TK_RKEY);
+                        listLexer.add(n);
+                        return n;
             }
           case 44: break;
-          case 19: 
-            { Symbol n = new Symbol(sym.TK_DIFFERENT);
-                    listLexer.add(n);
-                    return n;
+          case 18: 
+            { Symbol n = new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());
+                      listLexer.add(n);
+                      return n;
             }
           case 45: break;
-          case 20: 
-            { Symbol n = new Symbol(sym.TK_AND);
-                    listLexer.add(n);
-                    return n;
+          case 19: 
+            { Symbol n = new Symbol(sym.TK_EQUAL);
+                        listLexer.add(n);
+                        return n;
             }
           case 46: break;
-          case 21: 
-            { Symbol n = new Symbol(sym.TK_OR);
-                    listLexer.add(n);
-                    return n;
+          case 20: 
+            { Symbol n = new Symbol(sym.TK_DIFFERENT);
+                        listLexer.add(n);
+                        return n;
             }
           case 47: break;
-          case 22: 
-            { Symbol n = new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
+          case 21: 
+            { Symbol n = new Symbol(sym.TK_AND);
+                        listLexer.add(n);
+                        return n;
             }
           case 48: break;
-          case 23: 
-            { Symbol n = new Symbol(sym.TK_STRING, yyline, yycolumn, yytext());
-                    listLexer.add(n);
-                    return n;
+          case 22: 
+            { Symbol n = new Symbol(sym.TK_OR);
+                        listLexer.add(n);
+                        return n;
             }
           case 49: break;
-          case 24: 
-            { Symbol n = new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
+          case 23: 
+            { Symbol n = new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
             }
           case 50: break;
-          case 25: 
-            { Symbol n = new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
+          case 24: 
+            { Symbol n = new Symbol(sym.TK_STRING, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
             }
           case 51: break;
-          case 26: 
-            { Symbol n = new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());
-                  listLexer.add(n);
-                  return n;
+          case 25: 
+            { Symbol n = new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
             }
           case 52: break;
+          case 26: 
+            { Symbol n = new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());
+                      listLexer.add(n);
+                      return n;
+            }
+          case 53: break;
+          case 27: 
+            { Symbol n = new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());
+                        listLexer.add(n);
+                        return n;
+            }
+          case 54: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

@@ -213,28 +213,28 @@ public class Parser extends java_cup.runtime.lr_parser {
   
   /* comunicacion con el exterior */
   
-  private boolean mExito = false;
-  private Documento mDocumento = null;
+  private boolean mSuccess = false;
+  private Document mDocument = null;
   public SymbolTable table = null;
   
-  public boolean Exito()
+  public boolean getSuccess()
   {
-    return mExito;
+    return mSuccess;
   }
   
-  public void setExito( boolean pExito )
+  public void setSuccess( boolean pSuccess )
   {
-    mExito = pExito;
+    mSuccess = pSuccess;
   }
   
-  public void setDocumento( Documento pDocumento )
+  public void setDocument( Document pDocument )
   {
-    mDocumento = pDocumento;
+    mDocument = pDocument;
   }
   
-  public Documento getDocumento()
+  public Document getDocument()
   {
-    return mDocumento;
+    return mDocument;
   }
 
   public void setTable(){
@@ -273,11 +273,11 @@ class CUP$Parser$actions {
               Object RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Documento d = (Documento)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Document d = (Document)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            parser.setDocumento( d );
-            parser.setExito( true );
-          
+                parser.setDocument( d );
+                parser.setSuccess( true );
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("INICIO",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -299,13 +299,13 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // DOC ::= TK_MAIN TK_LPAREN TK_RPAREN TK_LKEY TK_ENTER C TK_ENTER TK_RKEY 
             {
-              Documento RESULT =null;
+              Document RESULT =null;
 		int cleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Documento c = (Documento)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Document c = (Document)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-            RESULT = c;
-        
+                RESULT = c;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("DOC",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -313,15 +313,15 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // C ::= E 
             {
-              Documento RESULT =null;
+              Document RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            Documento d = new Documento();
-            d.agregarExpresion( e );
-            RESULT = d;
-          
+                Document d = new Document();
+                d.addExpression( e );
+                RESULT = d;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("C",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -329,11 +329,11 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // C ::= TK_ENTER 
             {
-              Documento RESULT =null;
+              Document RESULT =null;
 		
-            Documento d = new Documento();
-            RESULT = d;
-          
+                Document d = new Document();
+                RESULT = d;
+              
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("C",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -341,17 +341,17 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 5: // C ::= C TK_ENTER E 
             {
-              Documento RESULT =null;
+              Document RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Documento d = (Documento)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Document d = (Document)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            d.agregarExpresion( e );
-            RESULT = d;
-          
+                d.addExpression( e );
+                RESULT = d;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("C",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -359,13 +359,13 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 6: // C ::= C TK_ENTER 
             {
-              Documento RESULT =null;
+              Document RESULT =null;
 		int dleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int dright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		Documento d = (Documento)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		Document d = (Document)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-            RESULT = d;
-          
+              RESULT = d;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("C",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -373,7 +373,7 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 7: // E ::= TK_TYPE TK_ID TK_PYC 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
@@ -381,9 +381,9 @@ class CUP$Parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-            table.addType(type, id);
-            //falta validar que si el nombre de la variable se repite de error
-        
+                table.addType(type, id);
+                //falta validar que si el nombre de la variable se repite de error
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -391,7 +391,7 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // E ::= TK_TYPE TK_ID TK_PYC E 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int typeleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
 		int typeright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
 		String type = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
@@ -400,11 +400,11 @@ class CUP$Parser$actions {
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            table.addType(type, id);
-            //falta validar que si el nombre de la variable se repite de error
-        
+                table.addType(type, id);
+                //falta validar que si el nombre de la variable se repite de error
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -412,16 +412,16 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // E ::= TK_ID TK_ASSIGN J TK_PYC 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-            table.putAssignID(id, j);
-        
+                table.putAssignID(id, j);
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -429,19 +429,19 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 10: // E ::= TK_ID TK_ASSIGN J TK_PYC E 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            table.putAssignID(id, j);
-        
+                table.putAssignID(id, j);
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -449,27 +449,27 @@ class CUP$Parser$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 11: // E ::= TK_KEYWORD_A TK_LPAREN J TK_RPAREN TK_LKEY TK_ENTER E TK_ENTER TK_RKEY 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int keyleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-8)).left;
 		int keyright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-8)).right;
 		String key = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-8)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-6)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-        ExpresionLiteral Exp = new ExpresionLiteral();
-        if(Exp.evaluateKeyword(key, (ExpresionBinaria)j)){
-            System.out.println("entro al keyword");
-            RESULT = j;
-        }else{
-            System.out.println("NO entro al keyword\t"+key);
-RESULT = j;
-        }
-        //RESULT = null;
-        
+                LiteralExpression Exp = new LiteralExpression();
+                if(Exp.evaluateKeyword(key, (BinaryExpression)j)){
+                    System.out.println("entro al keyword");
+                    RESULT = j;
+                }else{
+                    System.out.println("NO entro al keyword\t"+key);
+                    RESULT = j;
+                }
+                //RESULT = null;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-8)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -477,21 +477,21 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 12: // E ::= TK_KEYWORD_A TK_LPAREN J TK_RPAREN TK_LKEY TK_ENTER E TK_ENTER TK_RKEY P 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int keyleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)).left;
 		int keyright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)).right;
 		String key = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-9)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-7)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-7)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-7)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
 		int pleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int pright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion p = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression p = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -499,18 +499,18 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 13: // E ::= TK_FUNCTION TK_LPAREN J TK_RPAREN TK_PYC 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int functionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int functionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		String function = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-            ExpresionLiteral putw = new ExpresionLiteral();
-            putw.evaluatePutW(j);
-            System.out.println("acepta put");
-        
+                LiteralExpression putw = new LiteralExpression();
+                putw.evaluatePutW(j);
+                System.out.println("acepta put");
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -518,21 +518,21 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 14: // E ::= TK_FUNCTION TK_LPAREN J TK_RPAREN TK_PYC E 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int functionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
 		int functionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
 		String function = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-            ExpresionLiteral putw = new ExpresionLiteral();
-            putw.evaluatePutW(j);
-            System.out.println("acepta put");
-        
+                LiteralExpression putw = new LiteralExpression();
+                putw.evaluatePutW(j);
+                System.out.println("acepta put");
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -540,7 +540,7 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 15: // E ::= TK_FUNCTION TK_LPAREN TK_STRING TK_RPAREN TK_PYC 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int functionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).left;
 		int functionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)).right;
 		String function = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-4)).value;
@@ -548,9 +548,9 @@ RESULT = j;
 		int sright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
 		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-                ExpresionLiteral puts = new ExpresionLiteral();
+                LiteralExpression puts = new LiteralExpression();
                 puts.evaluatePutS(s);
-          
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-4)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -558,7 +558,7 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 16: // E ::= TK_FUNCTION TK_LPAREN TK_STRING TK_RPAREN TK_PYC E 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int functionleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).left;
 		int functionright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)).right;
 		String function = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-5)).value;
@@ -567,11 +567,11 @@ RESULT = j;
 		String s = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-                ExpresionLiteral puts = new ExpresionLiteral();
+                LiteralExpression puts = new LiteralExpression();
                 puts.evaluatePutS(s);
-          
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("E",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -579,14 +579,14 @@ RESULT = j;
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 17: // P ::= TK_KEYWORD_B TK_LKEY TK_ENTER E TK_ENTER TK_RKEY 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int eleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion e = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression e = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		
-System.out.println("entro al else");
-        //RESULT = e;
-        
+                System.out.println("entro al else");
+                //RESULT = e;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("P",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-5)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -594,18 +594,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 18: // J ::= J TK_MAS T 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setSuma( j , t );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setSum( j , t );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("J",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -613,18 +613,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 19: // J ::= J TK_MENOS T 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setResta( j , t );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setMinus( j , t );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("J",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -632,13 +632,13 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 20: // J ::= T 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          RESULT = t;
-        
+                RESULT = t;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("J",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -646,18 +646,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 21: // T ::= T TK_POR F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setMulti( t , f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setMulti( t , f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -665,18 +665,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 22: // T ::= T TK_DIV F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setDiv( t , f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setDiv( t , f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -684,18 +684,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 23: // T ::= T TK_GREATER F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setGreater( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setGreater( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -703,18 +703,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 24: // T ::= T TK_LESS F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setLess( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setLess( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -722,18 +722,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 25: // T ::= T TK_EQUAL F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setEqual( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setEqual( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -741,18 +741,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 26: // T ::= T TK_DIFFERENT F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setDifferent( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setDifferent( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -760,18 +760,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 27: // T ::= T TK_AND F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setAND( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setAND( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -779,18 +779,18 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 28: // T ::= T TK_OR F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int tleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;
 		int tright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).right;
-		Expresion t = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Expression t = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          ExpresionBinaria oper = new ExpresionBinaria();
-          oper.setOR( t, f );
-          RESULT = oper;
-        
+                BinaryExpression oper = new BinaryExpression();
+                oper.setOR( t, f );
+                RESULT = oper;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -798,13 +798,13 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 29: // T ::= F 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int fleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int fright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
-		Expresion f = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Expression f = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-          RESULT = f;
-        
+                RESULT = f;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("T",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -812,15 +812,15 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 30: // F ::= TK_NUM 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int numleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int numright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String num = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        ExpresionLiteral numero = new ExpresionLiteral();
-        numero.setLiteral( num );
-        RESULT = numero;
-      
+                LiteralExpression numero = new LiteralExpression();
+                numero.setLiteral( num );
+                RESULT = numero;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -828,15 +828,15 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 31: // F ::= TK_ID 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		
-        ExpresionLiteral numero = new ExpresionLiteral();
-        numero.setLiteral( table.getValue(id) );
-        RESULT = numero;
-      
+                LiteralExpression numero = new LiteralExpression();
+                numero.setLiteral( table.getValue(id) );
+                RESULT = numero;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -844,14 +844,14 @@ System.out.println("entro al else");
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 32: // F ::= TK_LPAREN J TK_RPAREN 
             {
-              Expresion RESULT =null;
+              Expression RESULT =null;
 		int jleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
 		int jright = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).right;
-		Expresion j = (Expresion)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		Expression j = (Expression)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		
-        j.setParentesis(true);
-        RESULT = j;
-      
+                j.setParenthesis(true);
+                RESULT = j;
+            
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("F",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;

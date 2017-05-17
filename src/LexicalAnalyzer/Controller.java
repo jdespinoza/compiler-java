@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package LexicalAnalyzer;
 
 import java.io.BufferedWriter;
@@ -13,34 +8,30 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Grammar.Documento;
-import Grammar.Expresion;
+import Grammar.Document;
+import Grammar.Expression;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 
-/**
- *
- * @author Carol
- */
+
 public class Controller {
-    
-    public String file = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\test.txt";
+    public String file = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\test.txt";
     
     public Controller(){
         
     }
     
     public void executeFlex (){
-        File file = new File ("C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Lexer.flex");
+        File file = new File ("C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Lexer.flex");
         jflex.Main.generate(file);
         System.out.println("Lexer creado");
     }
     
     public void executeCup () {
-        String pathSyntactic = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.cup";
+        String pathSyntactic = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.cup";
         String[] fileSyntactic = {"-parser", "Parser", pathSyntactic};
         try {
             java_cup.Main.main(fileSyntactic);
@@ -51,11 +42,11 @@ public class Controller {
         }
     }
     
-    public void fileMove(String origen, String destino){
-        Path origenPath = FileSystems.getDefault().getPath(origen);
-        Path destinoPath = FileSystems.getDefault().getPath(destino);
+    public void fileMove(String origin, String destination){
+        Path originPath = FileSystems.getDefault().getPath(origin);
+        Path destinationPath = FileSystems.getDefault().getPath(destination);
         try {
-            Files.move(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(originPath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.err.println(e);
         }
@@ -63,65 +54,66 @@ public class Controller {
     
     public void run(){
         try {
-        String reporte = "";
+        String report = "";
         
         Yylex lexer = new Yylex( new FileInputStream( file ) );
         Parser p = new Parser( lexer );
         p.setTable();
         p.parse();
-        if( p.Exito() ) {
-          reporte += "Parser sin problemas\n";
-          Documento resultado = p.getDocumento();
-          reporte += resultado.imprimirReporte();
-          System.out.println(reporte);
-          //jTextPane2.setText( reporte );
+        if( p.getSuccess() ) {
+          report += "Parser sin problemas\n";
+          Document result = p.getDocument();
+          report += result.printReport();
+          
+          System.out.println(lexer.printListLexer());
+          System.out.println(p.table.printSymbolTable());
+          System.out.println(report);
+          
         }else{
-            reporte += "Problema con el parser";
-            //jTextPane2.setText( reporte );
-            System.out.println(reporte);
+            report += "Problema con el parser";
+            
+            System.out.println(report);
         }
       } catch (Exception ex) {
         ex.printStackTrace();
       } finally {
       }
     }
-    
+    /*
     public void runAux(){
         try {
-        String reporte = "";
+        String report = "";
         
         Yylex lexer = new Yylex( new FileInputStream( file ) );
         Parser p = new Parser( lexer );
         p.setTable();
         p.parse();
-        if( p.Exito() ) {
-          reporte += "Parser sin problemas\n";
+        if( p.getSuccess() ) {
+          report += "Parser sin problemas\n";
 
         }else{
-            reporte += "Problema con el parser";
-            //jTextPane2.setText( reporte );
-            System.out.println(reporte);
+            report += "Problema con el parser";
+            //jTextPane2.setText( report );
+            System.out.println(report);
         }
       } catch (Exception ex) {
         ex.printStackTrace();
       } finally {
       }
-    }
+    }*/
 
     public static void main(String args[]) {
         Controller c = new Controller();
-        String pathParserFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\Parser.java";
-        String pathParserTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.java";
-        String pathSymFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\sym.java";
-        String pathSymTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\sym.java";
+        String pathParserFrom = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\Parser.java";
+        String pathParserTo = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.java";
+        String pathSymFrom = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\sym.java";
+        String pathSymTo = "C:\\Users\\Wifuss\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\sym.java";
         //c.executeFlex();
         //c.executeCup();
-        //c.exucuteAll();
-        //c.runCompi();
+        
         //c.fileMove(pathParserFrom, pathParserTo);
         //c.fileMove(pathSymFrom, pathSymTo);
         c.run();
-        //c.runAux();
-        
+
     }
 }
