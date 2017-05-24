@@ -1,11 +1,11 @@
 main(){
 	int num;
-	num = 1;
-     puts("abss");
-	num = num +3;
+	num = 5;
+	num = num + 3;
+	puts("hola");
 	if(num<7){
-		int num2; if (num < 8){
-			putw(num);
+		if (num < 3){
+			putw(num+1);num = num - 1;
 		}
 	}
 }
