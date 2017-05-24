@@ -7,6 +7,7 @@ public class LiteralExpression extends Expression {
   private TypeLiteralExpression mType = null;
   
   public LiteralExpression() {
+    expressionType = "literal";
   }
 
   public String toString() {
