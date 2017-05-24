@@ -28,39 +28,37 @@ public class SymbolTable {
         }
         
     }
-    
+
     private boolean searchIdList(String str, List l){
         ArrayList<String> list = (ArrayList<String>)l;
-        for(int i  = 0; i < l.size();i++){
-            if(str.compareTo(l.get(i).toString())==0){
+        for(int i  = 0; i < list.size();i++){
+            if(str.compareTo(list.get(i))==0){
                 return true;
             }
         }
         return false;
     }
+    
     public void putAssignID(String ID, Expression e){
-        System.out.println("La variable no esta declarada.");
-        boolean x = searchIdList(ID, intList);
+        boolean x = searchIdList(ID, intList);//busca si esta declarada la variable
         try{
-           
-           //busca si esta declarada la variable
-           
-            System.out.println("declarada "+x);
-           if(searchIdList(ID, intList)){
-               
-               System.out.println("Strin gagregacion "+ID);
-               BinaryExpression bin = (BinaryExpression)e;
-               assignID.put(ID, String.valueOf(bin.evaluate()));
+           if(x){//si existe
+               //Clasifica cual tipo de expresion en para poder resolverla segun corresponda
+               if(e.getExpressionType().compareTo("literal")==0){
+                   System.out.println("Literal");
+                   assignID.put(ID, ((LiteralExpression)e).getLiteral());
+               }
+               else{
+                   assignID.put(ID, String.valueOf(((BinaryExpression)e).evaluate()));
+               }
            }
            else{
-               System.out.println("La variable no esta declarada.");
-           }
-           
+               System.out.println("La variable no esta declarada."+ID);
+           }           
        }catch(Exception a){
            System.err.println("La variable no esta declarada.");
            //assignID.put(ID, String.valueOf(e.evaluate()));
-       }
-        
+       }   
     }
     
     public String getValue(String id){
