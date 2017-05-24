@@ -7,6 +7,7 @@ public class BinaryExpression extends Expression {
   private TypeBinaryExpression mType = null;
   
   public BinaryExpression() {
+      expressionType = "binary";
   }
   
   public String toString() {
