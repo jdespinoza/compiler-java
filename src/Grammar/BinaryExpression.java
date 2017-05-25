@@ -4,15 +4,14 @@ public class BinaryExpression extends Expression {
   
   public Expression mLi = null;
   public Expression mLd = null;
-  private TypeBinaryExpression mType = null;
+  private TipoDeExpresionBinaria mTipo = null;
   
   public BinaryExpression() {
-      expressionType = "binary";
   }
   
   public String toString() {
     
-    if( mType == null || mLi == null || mLd == null ) {
+    if( mTipo == null || mLi == null || mLd == null ) {
       return "";
     }
     
@@ -20,29 +19,17 @@ public class BinaryExpression extends Expression {
     String ld = mLd.toString();
     String op = "";
     
-    if( mType == TypeBinaryExpression.Suma ) {
+    if( mTipo == TipoDeExpresionBinaria.Suma ) {
       op = "+";
-    } else if( mType == TypeBinaryExpression.Resta ) {
+    } else if( mTipo == TipoDeExpresionBinaria.Resta ) {
       op = "-";
-    } else if( mType == TypeBinaryExpression.Multiplicacion ) {
+    } else if( mTipo == TipoDeExpresionBinaria.Multiplicacion ) {
       op = "*";
-    } else if( mType == TypeBinaryExpression.Division) {
+    } else if( mTipo == TipoDeExpresionBinaria.Division) {
       op = "/";
-    } else if( mType == TypeBinaryExpression.AND) {
-      op = "&&";
-    } else if( mType == TypeBinaryExpression.OR) {
-      op = "||";
-    } else if( mType == TypeBinaryExpression.Equal) {
-      op = "==";
-    } else if( mType == TypeBinaryExpression.Different) {
-      op = "¡=";
-    } else if( mType == TypeBinaryExpression.Greater) {
-      op = ">";
-    } else if( mType == TypeBinaryExpression.Less) {
-      op = "<";
-    } 
+    }
     
-    if( mParenthesis ) {
+    if( mParentesis ) {
       return "( " + li + " " + op + " " + ld + " )";  
     } else {
       return li + " " + op + " " + ld; 
@@ -50,61 +37,63 @@ public class BinaryExpression extends Expression {
     
   }
   
-  public Integer evaluate() {
-    if( mType == null || mLi == null || mLd == null ) {
+  public Integer evaluar() {
+    if( mTipo == null || mLi == null || mLd == null ) {
       return 0;
     }
     
-    Integer valI = mLi.evaluate();
-    Integer valD = mLd.evaluate();
+    Integer valI = mLi.evaluar();
+    Integer valD = mLd.evaluar();
     
     Integer res = 0;
     
-    if( mType == TypeBinaryExpression.Suma ) {
+    if( mTipo == TipoDeExpresionBinaria.Suma ) {
       res = valI + valD;      
-    } else if( mType == TypeBinaryExpression.Resta ) {
+    } else if( mTipo == TipoDeExpresionBinaria.Resta ) {
       res = valI - valD;
-    } else if( mType == TypeBinaryExpression.Multiplicacion ) {
+    } else if( mTipo == TipoDeExpresionBinaria.Multiplicacion ) {
       res = valI * valD;
-    } else if( mType == TypeBinaryExpression.Division) {
+    } else if( mTipo == TipoDeExpresionBinaria.Division) {
       if( valD != 0 )
       {
         res = valI / valD;
       } else {
         //problema con cero
-        res = 0;
+        
       }
-    } else if(mType == TypeBinaryExpression.Greater) {
+    } else if(mTipo == TipoDeExpresionBinaria.Greater) {
         if (valI > valD){
             res = 1;
+            System.out.println("Hola: 1");
         } else{
             res = 0;
+            System.out.println("Hola: 0");
         }
-    }else if(mType == TypeBinaryExpression.Less){
+    }else if(mTipo == TipoDeExpresionBinaria.Less){
         if (valI < valD){
             res = 1;
         } else{
             res = 0;
         }
-    }else if(mType == TypeBinaryExpression.Equal){
+    }else if(mTipo == TipoDeExpresionBinaria.Equal){
         if (valI == valD){
             res = 1;
         } else{
             res = 0;
         }
-    }else if(mType == TypeBinaryExpression.Different){
+    }else if(mTipo == TipoDeExpresionBinaria.Different){
         if (valI != valD){
             res = 1;
         } else{
             res = 0;
         }
-    }else if(mType == TypeBinaryExpression.AND){
+    }else if(mTipo == TipoDeExpresionBinaria.AND){
         if (valI > 0 && valD > 0){
             res = 1;
         } else{
             res = 0;
         }
-    }else if(mType == TypeBinaryExpression.OR){
+    }else if(mTipo == TipoDeExpresionBinaria.OR){
         if (valI > 0 || valD > 0){
             res = 1;
         } else{
@@ -116,61 +105,59 @@ public class BinaryExpression extends Expression {
     
   }
 
-  private void setSides( Expression pLi , Expression pLd ) {
+  private void setLados( Expression pLi , Expression pLd ) {
     this.mLi = pLi;
     this.mLd = pLd;
   }
   
-  public void setSum( Expression pLi , Expression pLd ) {
-    setSides(pLi,pLd);
-    setTipo(TypeBinaryExpression.Suma);
+  public void setSuma( Expression pLi , Expression pLd ) {
+    setLados(pLi,pLd);
+    setTipo(TipoDeExpresionBinaria.Suma);
   }
   
-  public void setMinus( Expression pLi , Expression pLd ) {
-    setSides(pLi,pLd);
-    setTipo(TypeBinaryExpression.Resta);
+  public void setResta( Expression pLi , Expression pLd ) {
+    setLados(pLi,pLd);
+    setTipo(TipoDeExpresionBinaria.Resta);
   }
   
   public void setMulti( Expression pLi , Expression pLd ) {
-    setSides(pLi,pLd);
-    setTipo(TypeBinaryExpression.Multiplicacion);
+    setLados(pLi,pLd);
+    setTipo(TipoDeExpresionBinaria.Multiplicacion);
   }
   
-  
-  
   public void setDiv( Expression pLi , Expression pLd ) {
-    setSides(pLi,pLd);
-    setTipo(TypeBinaryExpression.Division);
+    setLados(pLi,pLd);
+    setTipo(TipoDeExpresionBinaria.Division);
   }
   
   public void setGreater( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.Greater);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.Greater);
   }
   
   public void setLess( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.Less);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.Less);
   }
   
   public void setEqual( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.Equal);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.Equal);
   }
   
   public void setDifferent( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.Different);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.Different);
   }
   
   public void setAND( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.AND);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.AND);
   }
   
   public void setOR( Expression pLi , Expression pLd ){
-      setSides(pLi, pLd);
-      setTipo(TypeBinaryExpression.OR);
+      setLados(pLi, pLd);
+      setTipo(TipoDeExpresionBinaria.OR);
   }
   
   public void setLi(Expression mLi) {
@@ -189,15 +176,15 @@ public class BinaryExpression extends Expression {
     return mLd;
   }
 
-  public void setTipo(BinaryExpression.TypeBinaryExpression mTipo) {
-    this.mType = mTipo;
+  public void setTipo(BinaryExpression.TipoDeExpresionBinaria mTipo) {
+    this.mTipo = mTipo;
   }
 
-  public BinaryExpression.TypeBinaryExpression getTipo() {
-    return mType;
+  public BinaryExpression.TipoDeExpresionBinaria getTipo() {
+    return mTipo;
   }
 
-  public enum TypeBinaryExpression {
+  public enum TipoDeExpresionBinaria {
     Suma,
     Resta,
     Division,

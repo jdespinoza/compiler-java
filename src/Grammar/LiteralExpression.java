@@ -4,10 +4,9 @@ public class LiteralExpression extends Expression {
   
   // cadena de digitos devuelta por el escaner.
   private String mLiteral = null;
-  private TypeLiteralExpression mType = null;
+  private TipoDeExpresionLiteral mTipo = null;
   
   public LiteralExpression() {
-    expressionType = "literal";
   }
 
   public String toString() {
@@ -17,7 +16,7 @@ public class LiteralExpression extends Expression {
     return mLiteral;
   }
   
-  public Integer evaluate() {
+  public Integer evaluar() {
     
     if( mLiteral == null ) {
       return 0;
@@ -62,7 +61,7 @@ public class LiteralExpression extends Expression {
   
   public boolean evaluateIf(BinaryExpression e){
       boolean res;
-      Integer valor = e.evaluate();
+      Integer valor = e.evaluar();
       if (valor > 0){
           res = true;
       }else{
@@ -73,13 +72,13 @@ public class LiteralExpression extends Expression {
   
   public boolean evaluateWhile(BinaryExpression e){
       boolean res = false;
-      Integer value = e.evaluate();
+      Integer valor = e.evaluar();
       LiteralExpression aux = new LiteralExpression();
-      while(value>0){
-          value = e.mLi.evaluate() - 1;
-          aux.setLiteral(Integer.toString(value));
+      while(valor>0){
+          valor = e.mLi.evaluar() - 1;
+          aux.setLiteral(Integer.toString(valor));
           e.mLi = aux;
-          value = e.evaluate();
+          valor = e.evaluar();
           res=true;
           System.out.println("while");
       }
@@ -88,7 +87,7 @@ public class LiteralExpression extends Expression {
   
  /* public boolean evaluatePutW(BinaryExpression e){
       boolean res = false;
-      Integer aux = e.evaluate();
+      Integer aux = e.evaluar();
       System.out.print(aux);
       return res;
   }
@@ -96,26 +95,22 @@ public class LiteralExpression extends Expression {
    public void evaluatePutW(Expression e){
        try{
            BinaryExpression bin = (BinaryExpression)e;
-           System.out.print("evaluar1 = " +bin.evaluate()+ "\n");
+           System.out.print("evaluar1 = " +bin.evaluar()+ "\n");
        }catch(Exception a){
-           System.out.print("evaluar2 = " +e.evaluate()+ "\n");
+           System.out.print("evaluar2 = " +e.evaluar()+ "\n");
        }
       
   }
-   
-  public void evaluatePutS(String s){
-      System.out.println(s);
-  }
   
   public void setIf(){
-      setType(TypeLiteralExpression.IF);
+      setTipo(TipoDeExpresionLiteral.IF);
   }
   
-  public void setType(LiteralExpression.TypeLiteralExpression mTipo) {
-    this.mType = mTipo;
+  public void setTipo(LiteralExpression.TipoDeExpresionLiteral mTipo) {
+    this.mTipo = mTipo;
   }
   
-  public enum TypeLiteralExpression {
+  public enum TipoDeExpresionLiteral {
     IF
   }
   

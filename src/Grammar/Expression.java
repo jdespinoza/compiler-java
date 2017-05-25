@@ -2,22 +2,17 @@ package Grammar;
 
 public class Expression {
   
-  protected boolean mParenthesis = false;
-  protected String expressionType;
+  protected boolean mParentesis = false;
   
-  public String getExpressionType(){
-      return expressionType;
-  }
-  
-  public Integer evaluate() {
+  public Integer evaluar() {
     return 0; 
   }
 
-  public void setParenthesis(boolean mParentesis) {
-    this.mParenthesis = mParentesis;
+  public void setParentesis(boolean mParentesis) {
+    this.mParentesis = mParentesis;
   }
 
-  public boolean isParenthesis() {
-    return mParenthesis;
+  public boolean isParentesis() {
+    return mParentesis;
   }
 }
