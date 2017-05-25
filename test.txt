@@ -1,11 +1,14 @@
 main(){
 	int num;
-	num = 5;
-	num = num + 3;
-	puts("hola");
+	num = 1;
+	num = num +3;
 	if(num<7){
 		if (num < 3){
-			putw(num+1);num = num - 1;
+			if (num>8){
+				putw(num+1); putw(num+5);
+			}
 		}
+	}else{
+		putw(num+10);
 	}
 }
