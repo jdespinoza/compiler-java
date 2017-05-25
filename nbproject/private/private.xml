@@ -11,7 +11,9 @@
             <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/LexicalAnalyzer/Parser.cup</file>
             <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/Grammar/SymbolTable.java</file>
             <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/LexicalAnalyzer/Parser.java</file>
+            <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/LexicalAnalyzer/sym.java</file>
             <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/Grammar/Expresion.java</file>
+            <file>file:/C:/Users/Carol/Documents/NetBeansProjects/C-0/src/LexicalAnalyzer/Yylex.java</file>
         </group>
     </open-files>
 </project-private>
