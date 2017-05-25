@@ -13,24 +13,23 @@ public class sym {
   public static final int TK_GREATER = 11;
   public static final int TK_LESS = 12;
   public static final int TK_DIV = 5;
-  public static final int TK_STRING = 21;
   public static final int TK_MENOS = 3;
   public static final int TK_EQUAL = 13;
   public static final int TK_DIFFERENT = 14;
-  public static final int TK_KEYWORD_B = 24;
-  public static final int TK_KEYWORD_A = 23;
+  public static final int TK_KEYWORD_B = 23;
+  public static final int TK_KEYWORD_A = 22;
   public static final int TK_RKEY = 18;
   public static final int TK_MAS = 2;
   public static final int EOF = 0;
   public static final int TK_ENTER = 9;
-  public static final int TK_FUNCTION = 22;
+  public static final int TK_FUNCTION = 21;
   public static final int TK_LKEY = 17;
   public static final int TK_AND = 15;
   public static final int TK_OR = 16;
   public static final int error = 1;
   public static final int TK_PYC = 10;
-  public static final int TK_TYPE = 25;
-  public static final int TK_MAIN = 26;
+  public static final int TK_TYPE = 24;
+  public static final int TK_MAIN = 25;
   public static final int TK_RPAREN = 8;
   public static final int TK_ID = 20;
   public static final int TK_ASSIGN = 6;
@@ -57,7 +56,6 @@ public class sym {
   "TK_RKEY",
   "TK_NUM",
   "TK_ID",
-  "TK_STRING",
   "TK_FUNCTION",
   "TK_KEYWORD_A",
   "TK_KEYWORD_B",

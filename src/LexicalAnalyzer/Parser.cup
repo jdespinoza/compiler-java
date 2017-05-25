@@ -21,18 +21,18 @@ parser code {:
   
   /* comunicacion con el exterior */
   
-  private boolean mSuccess = false;
+  private boolean mExito = false;
   private Document mDocument = null;
   public SymbolTable table = null;
   
-  public boolean getSuccess()
+  public boolean Exito()
   {
-    return mSuccess;
+    return mExito;
   }
   
-  public void setSuccess( boolean pSuccess )
+  public void setExito( boolean pExito )
   {
-    mSuccess = pSuccess;
+    mExito = pExito;
   }
   
   public void setDocument( Document pDocument )
@@ -72,7 +72,6 @@ terminal TK_RKEY;
 
 terminal String TK_NUM;
 terminal String TK_ID;
-terminal String TK_STRING;
 terminal String TK_FUNCTION;
 terminal String TK_KEYWORD_A;
 terminal String TK_KEYWORD_B;
@@ -90,193 +89,174 @@ non terminal Expression F;
 non terminal Document C;
 
 INICIO ::= DOC:d 
-            {:
-                parser.setDocument( d );
-                parser.setSuccess( true );
-            :};
-
+          {:
+            parser.setDocument( d );
+            parser.setExito( true );
+          :};
 
 DOC ::= TK_MAIN TK_LPAREN TK_RPAREN TK_LKEY TK_ENTER C:c TK_ENTER TK_RKEY
-            {:
-                RESULT = c;
-            :};
+        {:
+            RESULT = c;
+        :};
 
-
-C ::=   E:e 
-            {:
-                Document d = new Document();
-                d.addExpression( e );
-                RESULT = d;
-            :}
+C ::= E:e 
+          {:
+            Document d = new Document();
+            d.agregarExpresion( e );
+            RESULT = d;
+          :}
         | TK_ENTER
-            {:
-                Document d = new Document();
-                RESULT = d;
-              :}
+          {:
+            Document d = new Document();
+            RESULT = d;
+          :}
         | C:d TK_ENTER E:e
-            {:
-                d.addExpression( e );
-                RESULT = d;
-            :}
+          {:
+            d.agregarExpresion( e );
+            RESULT = d;
+          :}
         | C:d TK_ENTER
-            {:
-              RESULT = d;
-            :};
+          {:
+            RESULT = d;
+          :};
 
+E ::= TK_TYPE:type TK_ID:id TK_PYC
+        {:
+            table.addType(type, id);
+            //falta validar que si el nombre de la variable se repite de error
+        :}
+      | TK_TYPE:type TK_ID:id TK_PYC E:e
+        {:
+            table.addType(type, id);
+            //falta validar que si el nombre de la variable se repite de error
+        :}
 
-E ::=   TK_TYPE:type TK_ID:id TK_PYC
-            {:
-                table.addType(type, id);
-                //falta validar que si el nombre de la variable se repite de error
-            :}
-        | TK_TYPE:type TK_ID:id TK_PYC E:e
-            {:
-                table.addType(type, id);
-                //falta validar que si el nombre de la variable se repite de error
-            :}
-
-        | TK_ID:id TK_ASSIGN J:j TK_PYC
-            {:
-                table.putAssignID(id, j);
-            :}
-        | TK_ID:id TK_ASSIGN J:j TK_PYC E:e
-            {:
-                table.putAssignID(id, j);
-            :}
-
-        | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY 
-            {:
-                LiteralExpression Exp = new LiteralExpression();
-                if(Exp.evaluateKeyword(key, (BinaryExpression)j)){
-                    System.out.println("entro al keyword");
-                    RESULT = j;
-                }else{
-                    System.out.println("NO entro al keyword\t"+key);
-                    RESULT = j;
-                }
-                //RESULT = null;
-            :}
-        | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
-            {:
-            :}
-
-        | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC
-            {:
-                LiteralExpression putw = new LiteralExpression();
-                putw.evaluatePutW(j);
-                System.out.println("acepta put");
-            :}
-        | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC E:e
-            {:
-                LiteralExpression putw = new LiteralExpression();
-                putw.evaluatePutW(j);
-                System.out.println("acepta put");
-            :}
-
-        | TK_FUNCTION:function TK_LPAREN TK_STRING:s  TK_RPAREN TK_PYC
-            {:
-                LiteralExpression puts = new LiteralExpression();
-                puts.evaluatePutS(s);
-            :}
-        | TK_FUNCTION:function TK_LPAREN TK_STRING:s TK_RPAREN TK_PYC E:e
-            {:
-                LiteralExpression puts = new LiteralExpression();
-                puts.evaluatePutS(s);
-            :};
-
+      | TK_ID:id TK_ASSIGN J:j TK_PYC
+        {:
+            table.putAssignID(id, j);
+        :}
+      | TK_ID:id TK_ASSIGN J:j TK_PYC E:e
+        {:
+            table.putAssignID(id, j);
+        :}
+      //| TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY 
+        //{:
+        //ExpresionLiteral Exp = new ExpresionLiteral();
+        //if(Exp.evaluateKeyword(key, (ExpresionBinaria)j)){
+//System.out.println("entro al keyword");
+  //          RESULT = j;
+    //    }else{
+//System.out.println("NO entro al keyword");
+//RESULT = j;
+  //      }
+        //RESULT = null;
+    //    :}
+      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
+        {:
+        :}
+      | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC
+        {:
+            LiteralExpression putw = new LiteralExpression();
+            putw.evaluatePutW(j);
+        :}
+      | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC E:e
+        {:
+            LiteralExpression putw = new LiteralExpression();
+            putw.evaluatePutW(j);
+        :};
 
 P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
-            {:
-                System.out.println("entro al else");
-                //RESULT = e;
-            :};
+        {:
+System.out.println("entro al else");
+        //RESULT = e;
+        :}
+        |;
 
 J ::=   J:j TK_MAS T:t 
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setSum( j , t );
-                RESULT = oper;
-            :}
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setSuma( j , t );
+          RESULT = oper;
+        :}
         | J:j TK_MENOS T:t 
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setMinus( j , t );
-                RESULT = oper;
-            :}
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setResta( j , t );
+          RESULT = oper;
+        :}
         | T:t
-            {:
-                RESULT = t;
-            :};
-
-
-T ::=   T:t TK_POR F:f 
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setMulti( t , f );
-                RESULT = oper;
-            :}
-        | T:t TK_DIV F:f 
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setDiv( t , f );
-                RESULT = oper;
-            :}
-        | T:t TK_GREATER F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setGreater( t, f );
-                RESULT = oper;
-            :}
-        | T:t TK_LESS F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setLess( t, f );
-                RESULT = oper;
-            :}
-        | T:t TK_EQUAL F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setEqual( t, f );
-                RESULT = oper;
-            :}
-        | T:t TK_DIFFERENT F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setDifferent( t, f );
-                RESULT = oper;
-            :}
-        | T:t TK_AND F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setAND( t, f );
-                RESULT = oper;
-            :}
-        | T:t TK_OR F:f
-            {:
-                BinaryExpression oper = new BinaryExpression();
-                oper.setOR( t, f );
-                RESULT = oper;
-            :}
-        | F:f 
-            {:
-                RESULT = f;
-            :};
+        {:
+          RESULT = t;
+        :};
       
-
-F ::=   TK_NUM:num 
-            {:
-                LiteralExpression numero = new LiteralExpression();
-                numero.setLiteral( num );
-                RESULT = numero;
-            :}
-        | TK_ID:id
-            {:
-                LiteralExpression numero = new LiteralExpression();
-                numero.setLiteral( table.getValue(id) );
-                RESULT = numero;
-            :}
-        | TK_LPAREN J:j TK_RPAREN 
-            {:
-                j.setParenthesis(true);
-                RESULT = j;
-            :};
+T ::=   T:t TK_POR F:f 
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setMulti( t , f );
+          RESULT = oper;
+        :}
+      | T:t TK_DIV F:f 
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setDiv( t , f );
+          RESULT = oper;
+        :}
+      | T:t TK_GREATER F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setGreater( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_LESS F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setLess( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_EQUAL F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setEqual( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_DIFFERENT F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setDifferent( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_AND F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setAND( t, f );
+          RESULT = oper;
+        :}
+      | T:t TK_OR F:f
+        {:
+          BinaryExpression oper = new BinaryExpression();
+          oper.setOR( t, f );
+          RESULT = oper;
+        :}
+      | F:f 
+        {:
+          RESULT = f;
+        :};
+      
+F ::= TK_NUM:num 
+      {:
+        LiteralExpression numero = new LiteralExpression();
+        numero.setLiteral( num );
+        RESULT = numero;
+      :}
+    | TK_ID:id
+      {:
+        LiteralExpression numero = new LiteralExpression();
+        numero.setLiteral( table.getValue(id) );
+        RESULT = numero;
+      :}
+    | TK_LPAREN J:j TK_RPAREN 
+      {:
+        j.setParentesis(true);
+        RESULT = j;
+      :};
+      
