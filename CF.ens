@@ -1,0 +1,23 @@
+                        MOVE #10 , /65531
+                        MOVE /65531 , /65534
+                        MOVE #0 , /65530
+                        MOVE /65530 , /65533
+                        WRSTR /CADENA_1
+                        MOVE /65534 , /65529
+                        WRINT /65529
+                        WRSTR /CADENA_2
+                        WRSTR /CADENA_3
+                        MOVE /65534 , /65528
+                        MOVE /65533 , /65527
+                        MOVE #5 , /65526
+                        DIV /65527 , /65526
+                        MOVE .A , /65525
+                        ADD /65528 , /65525
+                        MOVE .A , /65524
+                        WRINT /65524
+                        WRSTR /CADENA_4
+                        HALT
+CADENA_1: DATA          "Se debe escribir 10: "
+CADENA_2: DATA          "\n"
+CADENA_3: DATA          "Se debe escribir 11: "
+CADENA_4: DATA          "\n"
