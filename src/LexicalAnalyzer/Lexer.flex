@@ -1,132 +1,72 @@
 package LexicalAnalyzer;
 
 import java_cup.runtime.*;
+import java.io.IOException;
+import Information.Code;
 
 %%
-
+%full
 %unicode
 %line
 %column
+%char
 %public
 %cup
 
 %eofval{
     return new Symbol(sym.EOF);
-%eofval}
-
+%eofval} 
+ 
 %{
+    public Yylex(java.io.InputStream in) {
+        this(new java.io.InputStreamReader(in));
+    }
+    String tok = "";
+    private Symbol Token(int token, Object lexema) throws IOException {
+	int linea = yyline + 1;
+	tok = (String)lexema;
+	if (token != sym.EOF)
+            Code.saveInformation(linea,tok);
+        return new Symbol(token, lexema);
+    }
 
- public Yylex(java.io.InputStream in) {
-    this(new java.io.InputStreamReader(in));
-  }
+    private Symbol Token(int token) throws IOException {
+        return Token(token, yytext());
+    }
+%}
 
-%} 
-
-NUMBER_LEXER = [0-9]+
-WHITESPACE_LEXER = [ \t]
-ENTER_LEXER = [\r\n]+
-IDENTIFIER_LEXER = [a-zA-Z][a-zA-Z0-9]*
-KEYWORD_A_LEXER = "if"|"while"
-KEYWORD_B_LEXER = "else"
-MAIN_LEXER = "main"
-FUNCTION_LEXER = "puts"|"putw"
-TYPE_LEXER = "int"
-
+NUMERO_LEXER = [0-9]+
+IDENTIFICADOR_LEXER = [a-zA-Z][a-zA-Z0-9_]*
+CadenaTexto = "\""[a-zA-Z0-9 _][a-zA-Z0-9 _]*"\""
 %% 
 
-{WHITESPACE_LEXER} {}
+"(" 			{ return new Symbol(sym.LPAREN); }
+")" 			{ return new Symbol(sym.RPAREN); }
+";"  			{ return new Symbol(sym.PTOCOMA); }
+"+" 			{ return new Symbol(sym.SUMA); }
+"-" 			{ return new Symbol(sym.RESTA); }
+"*" 			{ return new Symbol(sym.PRODUCTO); }
+"/" 			{ return new Symbol(sym.DIVISION); }
+"<" 			{ return new Symbol(sym.MENOR); }
+">" 			{ return new Symbol(sym.MAYOR); }
+"==" 			{ return new Symbol(sym.IGUAL); }
+"!=" 	 		{ return new Symbol(sym.DISTINTO); }  
+"||" 			{ return new Symbol(sym.OR); }
+"&&" 			{ return new Symbol(sym.AND); }
+"=" 			{ return new Symbol(sym.ASIGNAR); }
+"{" 			{ return new Symbol(sym.LLLAVE); }
+"}" 			{ return new Symbol(sym.RLLAVE); }
+"int"			{ return new Symbol(sym.INT, yyline, yycolumn, yytext()); }
+"main" 			{ return new Symbol(sym.MAIN, yyline, yycolumn, yytext()); }
+"if"			{ return new Symbol(sym.IF, yyline, yycolumn, yytext()); }
+"else" 			{ return new Symbol(sym.ELSE, yyline, yycolumn, yytext()); }
+"while" 		{ return new Symbol(sym.WHILE, yyline, yycolumn, yytext()); }
+"puts" 			{ return new Symbol(sym.PUTS, yyline, yycolumn, yytext()); }
+"putw"			{ return new Symbol(sym.PUTW, yyline, yycolumn, yytext()); }
+"break"			{ return new Symbol(sym.BREAK, yyline, yycolumn, yytext()); }
+{CadenaTexto}   	{ return new Symbol(sym.CADENATEXTO, yyline, yycolumn, yytext()); }
+{IDENTIFICADOR_LEXER}	{ return new Symbol(sym.ID, yyline, yycolumn, yytext()); }
+{NUMERO_LEXER}		{ return new Symbol(sym.ENTERO, yyline, yycolumn, yytext()); }
+(" "|\n|\t|\r)+		{ }
 
-{ENTER_LEXER} { return new Symbol(sym.TK_ENTER); }
-
-{MAIN_LEXER} {
-                  return new Symbol(sym.TK_MAIN, yyline, yycolumn, yytext());  
-                }
-
-{KEYWORD_A_LEXER} {
-                  return new Symbol(sym.TK_KEYWORD_A, yyline, yycolumn, yytext());  
-                }
-{KEYWORD_B_LEXER} {
-                  return new Symbol(sym.TK_KEYWORD_B, yyline, yycolumn, yytext());  
-                }
-
-{FUNCTION_LEXER} {
-                  return new Symbol(sym.TK_FUNCTION, yyline, yycolumn, yytext());  
-                }
-
-{TYPE_LEXER}    {
-                  return new Symbol(sym.TK_TYPE, yyline, yycolumn, yytext());  
-                }
-
-{IDENTIFIER_LEXER} {
-                    return new Symbol(sym.TK_ID, yyline, yycolumn, yytext());
-                }
-
-{NUMBER_LEXER} {    
-                  return new Symbol(sym.TK_NUM, yyline, yycolumn, yytext());
-               }
-
-"+"             {    
-                  return new Symbol(sym.TK_MAS);
-                }
-
-"-"		{   
-                  return new Symbol(sym.TK_MENOS);
-                }
-
-"*"		{                
-                  return new Symbol(sym.TK_POR);                  
-                }
-
-"/"		{   
-                  return new Symbol(sym.TK_DIV);                  
-                }
-
-"("		{  
-                  return new Symbol(sym.TK_LPAREN);                  
-                }
-
-")"             { 
-                  return new Symbol(sym.TK_RPAREN);                  
-                }
-
-"="             {
-                    return new Symbol(sym.TK_ASSIGN);
-                }
-
-">"             {
-                    return new Symbol(sym.TK_GREATER);
-                }
-
-"<"             {
-                    return new Symbol(sym.TK_LESS);
-                }
-
-"=="            {
-                    return new Symbol(sym.TK_EQUAL);
-                }
-
-"¡="            {
-                    return new Symbol(sym.TK_DIFFERENT);
-                }
-
-"&&"            {
-                    return new Symbol(sym.TK_AND);
-                }
-
-"||"            {
-                    return new Symbol(sym.TK_OR);
-                }
-
-";"             {
-                    return new Symbol(sym.TK_PYC);
-                }
-
-"{"             {
-                    return new Symbol(sym.TK_LKEY);
-                }
-
-"}"             {
-                    return new Symbol(sym.TK_RKEY);
-                }
-
-.               {  }
+. { System.err.println("Caracter no permitido: "+yytext()); }

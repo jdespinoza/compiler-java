@@ -5,6 +5,8 @@
  */
 package LexicalAnalyzer;
 
+import LexicalAnalyzer.Parser;
+import LexicalAnalyzer.Yylex;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +15,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Grammar.Document;
-import Grammar.Expression;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -27,20 +27,20 @@ import java.nio.file.StandardCopyOption;
  */
 public class Controller {
     
-    public String file = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\test.txt";
+    public String file = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_6\\CompiC-0\\test.txt";
     
     public Controller(){
         
     }
     
     public void executeFlex (){
-        File file = new File ("C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Lexer.flex");
+        File file = new File ("C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Lexer.flex");
         jflex.Main.generate(file);
         System.out.println("Lexer creado");
     }
     
     public void executeCup () {
-        String pathSyntactic = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.cup";
+        String pathSyntactic = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Parser.cup";
         String[] fileSyntactic = {"-parser", "Parser", pathSyntactic};
         try {
             java_cup.Main.main(fileSyntactic);
@@ -63,45 +63,14 @@ public class Controller {
     
     public void run(){
         try {
-        String reporte = "";
         
         Yylex lexer = new Yylex( new FileInputStream( file ) );
         Parser p = new Parser( lexer );
-        p.setTable();
+        p.init();
         p.parse();
-        if( p.Exito() ) {
-          reporte += "Parser sin problemas\n";
-          Document resultado = p.getDocument();
-          reporte += resultado.imprimirReporte();
-          System.out.println(reporte);
-          //jTextPane2.setText( reporte );
-        }else{
-            reporte += "Problema con el parser";
-            //jTextPane2.setText( reporte );
-            System.out.println(reporte);
-        }
-      } catch (Exception ex) {
-        ex.printStackTrace();
-      } finally {
-      }
-    }
-    
-    public void runAux(){
-        try {
-        String reporte = "";
-        
-        Yylex lexer = new Yylex( new FileInputStream( file ) );
-        Parser p = new Parser( lexer );
-        p.setTable();
-        p.parse();
-        if( p.Exito() ) {
-          reporte += "Parser sin problemas\n";
-
-        }else{
-            reporte += "Problema con el parser";
-            //jTextPane2.setText( reporte );
-            System.out.println(reporte);
-        }
+                
+            System.out.println("Finalizo ");
+            
       } catch (Exception ex) {
         ex.printStackTrace();
       } finally {
@@ -110,18 +79,15 @@ public class Controller {
 
     public static void main(String args[]) {
         Controller c = new Controller();
-        String pathParserFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\Parser.java";
-        String pathParserTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\Parser.java";
-        String pathSymFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\sym.java";
-        String pathSymTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\C-0\\src\\LexicalAnalyzer\\sym.java";
+        String pathParserFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\Parser.java";
+        String pathParserTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Parser.java";
+        String pathSymFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\sym.java";
+        String pathSymTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\sym.java";
         //c.executeFlex();
         //c.executeCup();
-        //c.exucuteAll();
-        //c.runCompi();
         //c.fileMove(pathParserFrom, pathParserTo);
         //c.fileMove(pathSymFrom, pathSymTo);
         c.run();
-        //c.runAux();
         
     }
 }

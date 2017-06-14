@@ -8,59 +8,65 @@ package LexicalAnalyzer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int TK_NUM = 19;
-  public static final int TK_LPAREN = 7;
-  public static final int TK_GREATER = 11;
-  public static final int TK_LESS = 12;
-  public static final int TK_DIV = 5;
-  public static final int TK_MENOS = 3;
-  public static final int TK_EQUAL = 13;
-  public static final int TK_DIFFERENT = 14;
-  public static final int TK_KEYWORD_B = 23;
-  public static final int TK_KEYWORD_A = 22;
-  public static final int TK_RKEY = 18;
-  public static final int TK_MAS = 2;
+  public static final int AND = 14;
+  public static final int MENOR = 9;
+  public static final int ELSE = 21;
+  public static final int LLLAVE = 16;
+  public static final int INT = 18;
+  public static final int OR = 13;
+  public static final int RPAREN = 3;
+  public static final int IGUAL = 11;
+  public static final int WHILE = 22;
+  public static final int DIVISION = 8;
+  public static final int SUMA = 5;
+  public static final int IF = 20;
+  public static final int LPAREN = 2;
+  public static final int ID = 26;
+  public static final int CADENATEXTO = 28;
+  public static final int ASIGNAR = 15;
+  public static final int DISTINTO = 12;
+  public static final int MAYOR = 10;
   public static final int EOF = 0;
-  public static final int TK_ENTER = 9;
-  public static final int TK_FUNCTION = 21;
-  public static final int TK_LKEY = 17;
-  public static final int TK_AND = 15;
-  public static final int TK_OR = 16;
+  public static final int MAIN = 19;
+  public static final int BREAK = 25;
+  public static final int PUTW = 24;
   public static final int error = 1;
-  public static final int TK_PYC = 10;
-  public static final int TK_TYPE = 24;
-  public static final int TK_MAIN = 25;
-  public static final int TK_RPAREN = 8;
-  public static final int TK_ID = 20;
-  public static final int TK_ASSIGN = 6;
-  public static final int TK_POR = 4;
+  public static final int PUTS = 23;
+  public static final int PTOCOMA = 4;
+  public static final int PRODUCTO = 7;
+  public static final int ENTERO = 27;
+  public static final int RLLAVE = 17;
+  public static final int RESTA = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "TK_MAS",
-  "TK_MENOS",
-  "TK_POR",
-  "TK_DIV",
-  "TK_ASSIGN",
-  "TK_LPAREN",
-  "TK_RPAREN",
-  "TK_ENTER",
-  "TK_PYC",
-  "TK_GREATER",
-  "TK_LESS",
-  "TK_EQUAL",
-  "TK_DIFFERENT",
-  "TK_AND",
-  "TK_OR",
-  "TK_LKEY",
-  "TK_RKEY",
-  "TK_NUM",
-  "TK_ID",
-  "TK_FUNCTION",
-  "TK_KEYWORD_A",
-  "TK_KEYWORD_B",
-  "TK_TYPE",
-  "TK_MAIN"
+  "LPAREN",
+  "RPAREN",
+  "PTOCOMA",
+  "SUMA",
+  "RESTA",
+  "PRODUCTO",
+  "DIVISION",
+  "MENOR",
+  "MAYOR",
+  "IGUAL",
+  "DISTINTO",
+  "OR",
+  "AND",
+  "ASIGNAR",
+  "LLLAVE",
+  "RLLAVE",
+  "INT",
+  "MAIN",
+  "IF",
+  "ELSE",
+  "WHILE",
+  "PUTS",
+  "PUTW",
+  "BREAK",
+  "ID",
+  "ENTERO",
+  "CADENATEXTO"
   };
 }
 

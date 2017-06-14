@@ -36,7 +36,7 @@ public class SymbolTable {
         
     }
     
-    public void putAssignID(String ID, Expression e){
+    /*public void putAssignID(String ID, Expression e){
         try{
            BinaryExpression bin = (BinaryExpression)e;
            assignID.put(ID, String.valueOf(bin.evaluar()));
@@ -44,10 +44,37 @@ public class SymbolTable {
            assignID.put(ID, String.valueOf(e.evaluar()));
        }
         
-    }
+    }*/
     
     public String getValue(String id){
         return assignID.get(id);
+    }
+    public boolean checkID(String type, String ID){
+        boolean check = false;
+        switch (type){
+            case "int":
+                check = checkInt(ID);
+                break;
+            default:
+                //error
+                
+        }
+        return check;
+    }
+    
+    
+    public boolean checkInt(String ID){
+        for(int i = 0; i<intList.size(); i++){
+            if(ID.equals(intList.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void setSimbolo(Simbolo s){
+        //int cod = s.getCod();
+       
     }
     
 }

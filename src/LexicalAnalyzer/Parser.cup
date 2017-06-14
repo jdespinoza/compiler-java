@@ -1,262 +1,293 @@
 package LexicalAnalyzer;
 
+import java_cup.runtime.*;
 import java.util.*;
-import java_cup.runtime.Symbol;
+import java.io.*;
+import Grammar.Expresion;
 import Grammar.SymbolTable;
+import Information.Code;
+import Information.Textos;
 
-import Grammar.*;
+action code {:
 
-parser code {:     
+    //boolean existeSimbolo(String id){
+      //  return tabla.encontrarSimbolo(id);
+    //}
 
-  public void report_error(String message, Object info) {  
-  }  
+    //void agregarSimbolo(String id, int dir...){
+    //    return tabla.agregar(id, --contadorDireccion)
+    //}
+:}
 
-  public void syntax_error(Symbol s) 
-  {
-  }
+parser code {:
+    public boolean exito = false;
+    public int countDir;
+    SymbolTable table;
+    int cuentaWhile;
 
-  public void unrecovered_syntax_error(Symbol s) throws  java.lang.Exception 
-  {   
-  }
-  
-  /* comunicacion con el exterior */
-  
-  private boolean mExito = false;
-  private Document mDocument = null;
-  public SymbolTable table = null;
-  
-  public boolean Exito()
-  {
-    return mExito;
-  }
-  
-  public void setExito( boolean pExito )
-  {
-    mExito = pExito;
-  }
-  
-  public void setDocument( Document pDocument )
-  {
-    mDocument = pDocument;
-  }
-  
-  public Document getDocument()
-  {
-    return mDocument;
-  }
+	//static String nombreFichero;
 
-  public void setTable(){
-    table = new SymbolTable();
- }
-  
-:}; 
+    public void init(){
+        table = new SymbolTable();
+        cuentaWhile = 0;
+        countDir = 65536;
+    }
+	public void report_error(String message) {
+		
+	}
 
-terminal TK_MAS;
-terminal TK_MENOS;
-terminal TK_POR;
-terminal TK_DIV;
-terminal TK_ASSIGN;
+	public void syntax_error(Symbol s) {
+		
+	}
 
-terminal TK_LPAREN;
-terminal TK_RPAREN;
-terminal TK_ENTER;
-terminal TK_PYC;
-terminal TK_GREATER;
-terminal TK_LESS;
-terminal TK_EQUAL;
-terminal TK_DIFFERENT;
-terminal TK_AND;
-terminal TK_OR;
-terminal TK_LKEY;
-terminal TK_RKEY;
+	public void report_fatal_error(String message, Object info) {
+		
+	}
 
-terminal String TK_NUM;
-terminal String TK_ID;
-terminal String TK_FUNCTION;
-terminal String TK_KEYWORD_A;
-terminal String TK_KEYWORD_B;
-terminal String TK_TYPE;
-terminal String TK_MAIN;
+	public void unrecovered_syntax_error(Symbol s) {
+	}
 
-non terminal INICIO;
-non terminal Document DOC;
+	public void error(String message) {
+            report_error("ERROR -> Linea: "+Code.line+" Lexema: "+Code.token+" "+message);
+	}
 
-non terminal Expression E;
-non terminal Expression P;
-non terminal Expression J;
-non terminal Expression T;
-non terminal Expression F;
-non terminal Document C;
+:}
 
-INICIO ::= DOC:d 
-          {:
-            parser.setDocument( d );
-            parser.setExito( true );
-          :};
+terminal LPAREN, RPAREN, PTOCOMA, SUMA, RESTA, PRODUCTO, DIVISION, MENOR, MAYOR, IGUAL, DISTINTO; 
+terminal OR, AND, ASIGNAR, LLLAVE, RLLAVE, INT, MAIN, IF, ELSE, WHILE, PUTS, PUTW; 
+terminal BREAK;
+terminal String ID;
+terminal String ENTERO;
+terminal String CADENATEXTO;
 
-DOC ::= TK_MAIN TK_LPAREN TK_RPAREN TK_LKEY TK_ENTER C:c TK_ENTER TK_RKEY
-        {:
-            RESULT = c;
-        :};
+non terminal Programa, Declaraciones, Cuerpo;
+non terminal Declaracion;
+non terminal BloqueSentencias;
+non terminal Sentencias, Sentencia;
+non terminal Expresion Expresion;
+non terminal Expresion Condicion;
+non terminal SentIf, SentElse;
+non terminal SentWhile;
+non terminal SentAsignacion;
+non terminal SentPutw, SentPuts;
+non terminal SentBreak;
 
-C ::= E:e 
-          {:
-            Document d = new Document();
-            d.agregarExpresion( e );
-            RESULT = d;
-          :}
-        | TK_ENTER
-          {:
-            Document d = new Document();
-            RESULT = d;
-          :}
-        | C:d TK_ENTER E:e
-          {:
-            d.agregarExpresion( e );
-            RESULT = d;
-          :}
-        | C:d TK_ENTER
-          {:
-            RESULT = d;
-          :};
+precedence left ASIGNAR;
+precedence left OR, AND;
+precedence left IGUAL, DISTINTO, MAYOR, MENOR;     
+precedence left SUMA, RESTA;
+precedence left PRODUCTO, DIVISION;
+precedence left LPAREN, RPAREN;
+precedence left ELSE;
 
-E ::= TK_TYPE:type TK_ID:id TK_PYC
-        {:
-            table.addType(type, id);
-            //falta validar que si el nombre de la variable se repite de error
-        :}
-      | TK_TYPE:type TK_ID:id TK_PYC E:e
-        {:
-            table.addType(type, id);
-            //falta validar que si el nombre de la variable se repite de error
-        :}
+//indica con cual empezar
+start with Programa;
 
-      | TK_ID:id TK_ASSIGN J:j TK_PYC
-        {:
-            table.putAssignID(id, j);
-        :}
-      | TK_ID:id TK_ASSIGN J:j TK_PYC E:e
-        {:
-            table.putAssignID(id, j);
-        :}
-      //| TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY 
-        //{:
-        //ExpresionLiteral Exp = new ExpresionLiteral();
-        //if(Exp.evaluateKeyword(key, (ExpresionBinaria)j)){
-//System.out.println("entro al keyword");
-  //          RESULT = j;
-    //    }else{
-//System.out.println("NO entro al keyword");
-//RESULT = j;
-  //      }
-        //RESULT = null;
-    //    :}
-      | TK_KEYWORD_A:key TK_LPAREN J:j TK_RPAREN TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY P:p
-        {:
-        :}
-      | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC
-        {:
-            LiteralExpression putw = new LiteralExpression();
-            putw.evaluatePutW(j);
-        :}
-      | TK_FUNCTION:function TK_LPAREN J:j TK_RPAREN TK_PYC E:e
-        {:
-            LiteralExpression putw = new LiteralExpression();
-            putw.evaluatePutW(j);
-        :};
+Programa ::=  Declaraciones:d Cuerpo:c 
+            {:
+                System.out.println("sin problemas");
+            :}
+                | Cuerpo:c
+            {:
+                System.out.println("sin problemas");
+            :};
 
-P ::=   TK_KEYWORD_B TK_LKEY TK_ENTER E:e TK_ENTER TK_RKEY
-        {:
-System.out.println("entro al else");
-        //RESULT = e;
-        :}
-        |;
+Declaraciones ::= Declaracion:d Declaraciones 
+                {:
+System.out.println("declaracion");
+                RESULT = d;
+                :}
+                | Declaracion:d
+                {: 
+                RESULT = d;
+                System.out.println("declaracion");
+                :};
 
-J ::=   J:j TK_MAS T:t 
+Declaracion ::= INT ID:id PTOCOMA
+                {:
+                    System.out.println("ejecuto int x;");
+                    //preguntar  si existe id
+                    if (table.checkInt(id)){
+                        parser.error(Textos.simboloRedeclarado);
+                    }else{
+                        table.addType("int", id);
+                    }
+                    RESULT = id;
+                :};
+
+Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE
+            {:
+            :};
+
+BloqueSentencias ::= Sentencias
+                {:
+                :}
+                |  
+                {:
+                :};
+
+Sentencias ::= Sentencias Sentencia 
+                {:
+                :}
+                | Sentencia
+                {:
+                :};
+
+Expresion ::= Expresion:e1 SUMA Expresion:e2 
+                {:
+
+                :}
+            | Expresion:e1 RESTA Expresion:e2 
+                {:
+
+                :}
+           |  Expresion:e1 PRODUCTO Expresion:e2 
+                {:
+
+                :}
+           |  Expresion:e1 DIVISION Expresion:e2 
+                {:
+
+                :}
+           |    ENTERO:e 
+                {:
+                    
+                :}
+           |    ID:id 
+                {:
+                    if (!table.checkInt(id)){
+                        parser.error(Textos.simboloNoDeclarado);
+                    }
+                :}
+           |    LPAREN Expresion:e RPAREN 
+                {:
+
+                :};
+
+Condicion ::= Expresion OR Expresion 
+                {:
+
+                :}
+	   |  Expresion AND Expresion
+		{:
+                            
+		:}
+           |  Expresion IGUAL Expresion 
+		{:
+                            
+		:}
+	   | Expresion DISTINTO Expresion
+		{:
+                            
+		:}
+           | Expresion MAYOR Expresion
+		{:
+                            
+		:}
+	   | Expresion MENOR Expresion
+		{:
+                            
+		:}
+       	   | LPAREN Condicion:c RPAREN
+		{:
+                            
+		:};
+
+SentIf ::= IF LPAREN 
         {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setSuma( j , t );
-          RESULT = oper;
-        :}
-        | J:j TK_MENOS T:t 
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setResta( j , t );
-          RESULT = oper;
-        :}
-        | T:t
-        {:
-          RESULT = t;
-        :};
-      
-T ::=   T:t TK_POR F:f 
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setMulti( t , f );
-          RESULT = oper;
-        :}
-      | T:t TK_DIV F:f 
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setDiv( t , f );
-          RESULT = oper;
-        :}
-      | T:t TK_GREATER F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setGreater( t, f );
-          RESULT = oper;
-        :}
-      | T:t TK_LESS F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setLess( t, f );
-          RESULT = oper;
-        :}
-      | T:t TK_EQUAL F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setEqual( t, f );
-          RESULT = oper;
-        :}
-      | T:t TK_DIFFERENT F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setDifferent( t, f );
-          RESULT = oper;
-        :}
-      | T:t TK_AND F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setAND( t, f );
-          RESULT = oper;
-        :}
-      | T:t TK_OR F:f
-        {:
-          BinaryExpression oper = new BinaryExpression();
-          oper.setOR( t, f );
-          RESULT = oper;
-        :}
-      | F:f 
-        {:
-          RESULT = f;
-        :};
-      
-F ::= TK_NUM:num 
-      {:
-        LiteralExpression numero = new LiteralExpression();
-        numero.setLiteral( num );
-        RESULT = numero;
-      :}
-    | TK_ID:id
-      {:
-        LiteralExpression numero = new LiteralExpression();
-        numero.setLiteral( table.getValue(id) );
-        RESULT = numero;
-      :}
-    | TK_LPAREN J:j TK_RPAREN 
-      {:
-        j.setParentesis(true);
-        RESULT = j;
-      :};
-      
+				
+	:}
+          |  Condicion:c 
+	{:
+				
+	:}
+           | RPAREN LLLAVE BloqueSentencias RLLAVE 
+	{:
+				
+	:}
+          |  SentElse
+	{:
+				
+	:};
+
+SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE 
+;
+
+SentWhile ::= WHILE LPAREN 
+		{:
+				
+		:}
+		Condicion:c
+		{:
+				
+		:} 
+		RPAREN LLLAVE 
+		{:
+                    cuentaWhile++;
+		:}
+		BloqueSentencias 
+		{:
+                    cuentaWhile--;
+		:}
+		RLLAVE
+		{:
+                    
+		:};
+
+SentAsignacion ::= ID:id 
+                    {:
+                      
+                    if (!table.checkInt(id)){
+                        parser.error(Textos.simboloNoDeclarado);
+                    }
+                    :} 
+                 | ID:id ASIGNAR Expresion:e PTOCOMA
+                    {:
+
+                    :};
+
+SentPutw ::= PUTW LPAREN Expresion:e 
+                    {:
+
+                    :}
+	     RPAREN PTOCOMA
+                    {:
+                    :};
+
+SentPuts ::= PUTS LPAREN CADENATEXTO:c
+                    {:
+
+                    :}
+	     RPAREN PTOCOMA
+                    {:
+                    :};
+
+SentBreak ::= BREAK 
+                    {:
+                        if (cuentaWhile>0){
+                        } else {
+                            parser.error(Textos.breakSinWhile);
+                        }
+                    :}
+	      PTOCOMA
+                    {:
+                    :};
+
+Sentencia ::= SentIf 
+            {:
+            :}
+            | SentWhile
+            {:
+            :}
+            | SentAsignacion
+            {:
+            :}
+            | SentPutw
+            {:
+            :}
+            | SentPuts
+            {:
+            :}
+            | SentBreak
+            {:
+            :};
