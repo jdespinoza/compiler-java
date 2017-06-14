@@ -1,12 +1,17 @@
+function Prueba {
+	x = 4;
+	y = 12;
+}function Hola {
+	z = 50;
+}END
 int x;
 int y;
+int z;
 main(){
 	x = 10;
 	y = 0;
+	Prueba();
 	puts("Se debe escribir 10: ");
 	putw(x);
-	puts("\n");
-	puts("Se debe escribir 11: ");
-	putw(x+(y/5));
 	puts("\n");
 }

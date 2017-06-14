@@ -10,13 +10,13 @@ package Grammar;
  * @author Carol
  */
 public class Expresion {
-    int direccion;
+    public int direccion;
 
-    Expresion(int d) {
+    public Expresion(int d) {
         direccion = d;
     }
 
-    int getDireccion() {
+    public int getDireccion() {
         return direccion;
     }
 }

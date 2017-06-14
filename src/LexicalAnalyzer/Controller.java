@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package LexicalAnalyzer;
 
-import LexicalAnalyzer.Parser;
-import LexicalAnalyzer.Yylex;
+//import LexicalAnalyzer.Parser;
+//import LexicalAnalyzer.Yylex;
+import UI.CodeToUI;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -19,6 +17,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
 
 /**
@@ -27,20 +26,20 @@ import java.nio.file.StandardCopyOption;
  */
 public class Controller {
     
-    public String file = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_6\\CompiC-0\\test.txt";
+    public String file = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\test.txt";
     
     public Controller(){
         
     }
     
     public void executeFlex (){
-        File file = new File ("C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Lexer.flex");
+        File file = new File ("C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\src\\LexicalAnalyzer\\Lexer.flex");
         jflex.Main.generate(file);
         System.out.println("Lexer creado");
     }
     
     public void executeCup () {
-        String pathSyntactic = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Parser.cup";
+        String pathSyntactic = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\src\\LexicalAnalyzer\\Parser.cup";
         String[] fileSyntactic = {"-parser", "Parser", pathSyntactic};
         try {
             java_cup.Main.main(fileSyntactic);
@@ -63,13 +62,20 @@ public class Controller {
     
     public void run(){
         try {
-        
+        CodeToUI codigoStr = new CodeToUI();
+        String resLexer = "",resTable="";
         Yylex lexer = new Yylex( new FileInputStream( file ) );
         Parser p = new Parser( lexer );
         p.init();
         p.parse();
-                
-            System.out.println("Finalizo ");
+            System.out.println(lexer.getListLexer().size());
+        codigoStr.generaListLexemas(lexer.getListLexer());
+        resLexer = codigoStr.getListLexemas();        
+        
+        codigoStr.generarTablaSimbolos((ArrayList)p.getTable().getIntList(), (ArrayList)p.getTable().getFunciones());
+        resTable = codigoStr.getTablaSimbolos();
+            System.out.println("Finalizo \n"+resLexer);
+            System.out.println(resTable);
             
       } catch (Exception ex) {
         ex.printStackTrace();
@@ -79,15 +85,15 @@ public class Controller {
 
     public static void main(String args[]) {
         Controller c = new Controller();
-        String pathParserFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\Parser.java";
-        String pathParserTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\Parser.java";
-        String pathSymFrom = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\sym.java";
-        String pathSymTo = "C:\\Users\\Carol\\Documents\\NetBeansProjects\\CompiC-0\\src\\LexicalAnalyzer\\sym.java";
+        String pathParserFrom = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\Parser.java";
+        String pathParserTo = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\src\\LexicalAnalyzer\\Parser.java";
+        String pathSymFrom = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\sym.java";
+        String pathSymTo = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\src\\LexicalAnalyzer\\sym.java";
         //c.executeFlex();
         //c.executeCup();
         //c.fileMove(pathParserFrom, pathParserTo);
         //c.fileMove(pathSymFrom, pathSymTo);
         c.run();
-        
+       
     }
 }

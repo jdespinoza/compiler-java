@@ -17,101 +17,110 @@ import java.util.logging.Logger;
 
 
 public class CodigoFinal {
-    private static String dirCodeFinal = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_6\\CompiC-0\\CF.ens";
+    private static String dirCodeFinal = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\CF.ens";
     private FileWriter codeFinal;
     private static String tab = "                        ";
-    private ArrayList<Cuadrupla> codigoIC;
+    private Cuadrupla[] codigoIC;
     
-    public CodigoFinal() {
-
+    private boolean existeFuncion;
+    private static String direccionIC = "C:\\Users\\Wifuss\\Documents\\Jason\\C-0_8\\CompiC-0\\prueba.ci";
+   
+    
+    
+    public CodigoFinal(Cuadrupla[] codigoIC) {
+        existeFuncion = false;
+        
+        this.codigoIC = codigoIC;
     }
 
-    public CodigoFinal(ArrayList<Cuadrupla> codigoEns) {
-        this.codigoIC = codigoEns;
-    }
-
-    public void setCodigoEns(ArrayList<Cuadrupla> codigoEns) {
-        this.codigoIC = codigoEns;
-    }
     
     /**
      * Procesa el codigo IC a codigo FC
      */
-    public void procesarICtoFC(){
+    public void procesarCI_CF(){
         int i;
         String op1, op2, op3, etiqueta;
         Cuadrupla n;
         
         this.abrirFicheroEscritura();
-        
-            i = 0;
-            while(i < codigoIC.size()){
-                n = codigoIC.get(i);
-                etiqueta = n.getEtiqueta();
-                op1 = n.getDir1();
-                op2 = n.getDir2();
-                op3 = n.getDir3();
-                //System.out.println((i+1)+" "+etiqueta+" "+op1+" "+op2+" "+op3);
-                switch(etiqueta){
-                    case "CARGAR_DIRECCION":
-                        ensCargarDireccion(op1, op3);
-                        break;
-                    case "CARGAR_VALOR":
-                        ensCargarValor(op1, op3);
-                        break;
-                    case "SUMAR":
-                        ensSumar(op1, op2, op3);
-                        break;
-                    case "RESTAR":
-                        ensRestar(op1, op2, op3);
-                        break;
-                    case "MULTIPLICAR":
-                        ensMultiplicar(op1, op2, op3);
-                        break;
-                    case "DIVIDIR":
-                        ensDividir(op1, op2, op3);
-                        break;
-                    case "OR":
-                        ensOr(op1, op2, op3);
-                        break;
-                    case "AND":
-                        ensAnd(op1, op2, op3);
-                        break;
-                    case "MAYOR":
-                        ensMayor(op1, op2, op3);
-                        break;
-                    case "MENOR":
-                        ensMenor(op1, op2, op3);
-                        break;
-                    case "IGUAL":
-                        ensIgual(op1, op2, op3);
-                        break;
-                    case "DISTINTO":
-                        ensDistinto(op1, op2, op3);
-                        break;
-                    case "SALTAR_CONDICION":
-                        ensSaltarCondicion(op1, op3);
-                        break;
-                    case "ETIQUETA":
-                        ensEtiqueta(op3);
-                        break;
-                    case "SALTAR_ETIQUETA":
-                        ensSaltarEtiqueta(op3);
-                        break;
-                    case "IMPRIMIR_ENTERO":
-                        ensPUTW(op1);
-                        break;
-                    case "IMPRIMIR_CADENA":
-                        ensPUTS(op1);
-                        break;
-                    case "PONER_CADENA":
-                        ensPonerCadena(op1, op3);
-                        break;
-                    case "FIN":
-                        ensFin();
-                        break;
-                    default:
-                        System.out.println("Etiqueta mal escrita o no espicificada: "+(i+1)+" "+etiqueta);
+        int len = this.codigoIC.length;
+        i = 0;
+        this.ensInicioMain();//etiqueta de salto a inicio main
+        while(i < len){
+            n = codigoIC[i];
+            etiqueta = n.getEtiqueta();
+            op1 = n.getDir1();
+            op2 = n.getDir2();
+            op3 = n.getDir3();
+            switch(etiqueta){
+                case "FUNCION":
+                    ensFuncion(op3);
+                    break;
+                case "MAIN":
+                    ensMain();
+                    break;
+                case "LLAMADA":
+                    ensLlamada(op3);
+                    break;
+                case "CARGAR_DIRECCION":
+                    ensCargarDireccion(op1, op3);
+                    break;
+                case "CARGAR_VALOR":
+                    ensCargarValor(op1, op3);
+                    break;
+                case "SUMAR":
+                    ensSumar(op1, op2, op3);
+                    break;
+                case "RESTAR":
+                    ensRestar(op1, op2, op3);
+                    break;
+                case "MULTIPLICAR":
+                    ensMultiplicar(op1, op2, op3);
+                    break;
+                case "DIVIDIR":
+                    ensDividir(op1, op2, op3);
+                    break;
+                case "OR":
+                    ensOr(op1, op2, op3);
+                    break;
+                case "AND":
+                    ensAnd(op1, op2, op3);
+                    break;
+                case "MAYOR":
+                    ensMayor(op1, op2, op3);
+                    break;
+                case "MENOR":
+                    ensMenor(op1, op2, op3);
+                    break;
+                case "IGUAL":
+                    ensIgual(op1, op2, op3);
+                    break;
+                case "DISTINTO":
+                    ensDistinto(op1, op2, op3);
+                    break;
+                case "SALTAR_CONDICION":
+                    ensSaltarCondicion(op1, op3);
+                    break;
+                case "ETIQUETA":
+                    ensEtiqueta(op3);
+                    break;
+                case "SALTAR_ETIQUETA":
+                   ensSaltarEtiqueta(op3);
+                    break;
+                case "IMPRIMIR_ENTERO":
+                    ensPUTW(op1);
+                    break;
+                case "IMPRIMIR_CADENA":
+                    ensPUTS(op1);
+                    break;
+                case "PONER_CADENA":
+                    ensPonerCadena(op1, op3);
+                     break;
+                case "FIN":
+                    ensFin();
+                    break;
+                default:
+                    System.out.println("Etiqueta mal escrita o no espicificada: "+(i+1)+" "+etiqueta);
                         break;
                 }
                 i++;
@@ -122,7 +131,7 @@ public class CodigoFinal {
     /**
      * Crear archivo codigoFinal.ens
      */
-    public void abrirFicheroEscritura(){
+    private void abrirFicheroEscritura(){
         try {
             this.codeFinal = new FileWriter(dirCodeFinal);
 	} catch (Exception ex) {
@@ -130,7 +139,7 @@ public class CodigoFinal {
 	}
     }
     
-    public void escribirFichero(String str){
+    private void escribirFichero(String str){
         try {
             this.codeFinal.write(str+"\n");
         } catch (IOException ex) {
@@ -138,7 +147,7 @@ public class CodigoFinal {
         }
     }
 
-    public void cerrarFicheroEscritura(){
+    private void cerrarFicheroEscritura(){
         try{
             codeFinal.close();
         }catch(Exception ex){
@@ -285,52 +294,53 @@ public class CodigoFinal {
     public void ensFin(){
         addLineaArchivo(tab+"HALT");
     }
-    
-    
-    public static void main(String args[]) throws FileNotFoundException, IOException {
 
-        CodigoIntermedio ci = new CodigoIntermedio();
-        
-        FileReader fr = new FileReader("C:\\Users\\Wifuss\\Documents\\Jason\\C-0_6\\CompiC-0\\prueba.ci");
-        BufferedReader bf = new BufferedReader(fr);
-        
-        String cadena = null;
-        int poss = 0;
-        String str3;
-        cadena = bf.readLine();
-        while (cadena != null) {
-            System.out.println(cadena);
-            String split[];    
-                
-            split = cadena.split(" ");
-            //System.out.println(split[0]+" "+split[1]+" "+split[2]+" "+split[3]);
-            if(split[3].charAt(0)==34){
-                str3="";
-                int i = 3;
-                while( i < split.length-1 ){
-                    str3+=split[i]+" ";
-                    i++;
-                }
-                str3+=split[i];
-            }
-            else{
-                str3=split[3];
-            }
-            
-            ci.guardarCuadrupla(new Cuadrupla(split[0], split[1], split[2], str3));
-            //System.out.println(poss+" "+ci.getElementoCI(poss).toString());
-            poss++;
-            cadena = bf.readLine();
+    /**SALTO_MAIN
+     */
+    public void ensInicioMain(){
+        addLineaArchivo(tab+"BR /MAIN");
+    }
+    
+    /**FUNCION
+     * Decaracion function
+     */
+    public void ensFuncion(String op3){
+        System.out.println("-------------"+op3);
+        if(existeFuncion){
+            addLineaArchivo(tab+"RET");
+            String et = op3+":"+tab;
+            addLineaArchivo(et.substring(0, tab.length())+"NOP");
+            existeFuncion=false;
         }
-        try {
-            fr.close();
-        } catch (IOException ex) {
-            Logger.getLogger(CodigoFinal.class.getName()).log(Level.SEVERE, null, ex);
+        else{
+            String et = op3+":"+tab;
+            addLineaArchivo(et.substring(0, tab.length())+"NOP");
+            existeFuncion = true;
         }
-        
-        CodigoFinal cod = new CodigoFinal();
-        cod.setCodigoEns(ci.getCI());
-        cod.procesarICtoFC();
+    }
+    
+    /**MAIN null null null
+     * Etiqueta Main
+     */
+    public void ensMain(){
+        if(existeFuncion){
+            addLineaArchivo(tab+"RET");
+            String et = "MAIN:"+tab;
+            addLineaArchivo(et.substring(0, tab.length())+"NOP");
+            existeFuncion=false;
+        }
+        else{
+            addLineaArchivo(tab+"RET");
+            String et = "MAIN:"+tab;
+            addLineaArchivo(et.substring(0, tab.length())+"NOP");
+            existeFuncion=false;
+        }
+    }
+    
+    /**LLAMADA null null etiqueta
+     */
+    public void ensLlamada(String op3){
+        addLineaArchivo(tab+"CALL /"+op3);
     }
     
 }

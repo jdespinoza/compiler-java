@@ -7,8 +7,15 @@ import Grammar.Expresion;
 import Grammar.SymbolTable;
 import Information.Code;
 import Information.Textos;
+import CodigoIntermedio.CodigoIntermedio;
+import CodigoIntermedio.Cuadrupla;
+import CodeGeneration.CodigoFinal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 action code {:
+
+    
 
     //boolean existeSimbolo(String id){
       //  return tabla.encontrarSimbolo(id);
@@ -23,15 +30,276 @@ parser code {:
     public boolean exito = false;
     public int countDir;
     SymbolTable table;
+    Pila pilaIf;
+    Pila pilaBucle;
+    Lista listaCadenas;
+    CodigoIntermedio codigoIntermedio;
+    CodigoFinal codigoFinal;
     int cuentaWhile;
-
-	//static String nombreFichero;
+    int cuentaIf;
+    int cuentaBucle;
+    int cuentaCadenas;
+    int cuentaFunciones;
+    static String nombreFichero;
 
     public void init(){
         table = new SymbolTable();
+        pilaIf = new Pila();
+        pilaBucle = new Pila();
+        listaCadenas = new Lista();
         cuentaWhile = 0;
-        countDir = 65536;
+        cuentaFunciones = 0;
+        cuentaBucle = 0;
+        cuentaIf = 0;
+        cuentaCadenas = 0;
+        countDir = 65534;
+        String nombre = "prueba";
+        codigoIntermedio = new CodigoIntermedio(nombre + ".ci");
+
+        if (codigoIntermedio.abrirFicheroEscritura()){
+            System.out.println("Archivo creado");
+        }else{
+            try {
+                codigoIntermedio.cerrarFicheroEscritura();
+            } catch (IOException ex) {
+                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
+
+    public SymbolTable getTable(){
+        return table;
+    }
+    public void generarCF(Cuadrupla[] x){
+        codigoFinal = new CodigoFinal(x);
+        codigoFinal.procesarCI_CF();
+    }
+
+    Expresion suma(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("SUMAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion resta(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("RESTAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion producto(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("MULTIPLICAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion division(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("DIVIDIR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion entero(String e){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_VALOR",e,null,
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion identificador(String id){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+            String.valueOf(table.tablaSimbolos.get(id)),
+            null, String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion or(Expresion c1, Expresion c2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
+            String.valueOf(c1.getDireccion()),
+            String.valueOf(c2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion and(Expresion c1, Expresion c2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("AND",
+            String.valueOf(c1.getDireccion()),
+            String.valueOf(c2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion mayor(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("MAYOR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion menor(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("MENOR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion igual(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("IGUAL",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    Expresion distinto(Expresion e1, Expresion e2){
+        countDir--;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("DISTINTO",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(countDir)));
+        return new Expresion(countDir);
+    }
+
+    void asignacion(String id, Expresion e){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+            String.valueOf(e.getDireccion()),null,
+            String.valueOf((table.tablaSimbolos.get(id)))));
+    }
+
+    void cerrarCI(){
+        try {
+            codigoIntermedio.cerrarFicheroEscritura();
+        } catch (IOException ex) {
+            Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void condicion(Expresion e, int n, int linea){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "SALTAR_CONDICION",
+            String.valueOf(e.getDireccion()),
+            String.valueOf(linea),
+            "ELSE_" + String.valueOf(n)));
+    }
+
+    void saltarEtiqueta(String eti, int n){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "SALTAR_Etiqueta",
+            null,
+            null,
+            eti + "_" + String.valueOf(n)));
+    }
+    void saltarEtiqueta2(String eti, int n, int linea){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "SALTAR_Etiqueta2",
+            String.valueOf(linea),
+            null,
+            eti + "_" + String.valueOf(n)));
+    }
+
+    void ponerEtiquetaInicio(String eti, int n, int linea){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "ETIQUETA_INICIO",
+            String.valueOf(linea),
+            null,
+            eti + "_" + String.valueOf(n)));
+    }
+
+    void ponerEtiquetaMain(){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "MAIN",
+            null,
+            null,
+            null));
+    }
+
+    void ponerEtiquetaFuncion(String eti, int n, int linea){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "FUNCION",
+            String.valueOf(linea),
+            null,
+            eti));
+    }
+
+    void ponerEtiqueta(String eti, int n){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "ETIQUETA",
+            null,
+            null,
+            eti + "_" + String.valueOf(n)));
+    }
+
+    void llamada(String eti){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "LLAMADA",
+            null,
+            null,
+            eti));
+    }
+
+    void condicion2(Expresion e, int n, int linea){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "SALTAR_CONDICION2",
+            String.valueOf(e.getDireccion()),
+            String.valueOf(linea),
+            "FINBUCLE_" + String.valueOf(n)));
+    }
+
+    void imprimirW(Expresion e){
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "IMPRIMIR_ENTERO",
+            String.valueOf(e.getDireccion()),
+            null,
+            null));
+    }
+
+    void imprimirS(String c, int cuenta){
+        listaCadenas.addCadena(c);
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "IMPRIMIR_CADENA",
+            "CADENA_"+String.valueOf(cuenta),
+            null,
+            null));
+    }
+
+    void generarCadenas(){
+        for(int i = 0; i < listaCadenas.size(); i++){
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+                "PONER_CADENA",
+                "CADENA_"+String.valueOf(i+1),
+                null,
+                listaCadenas.getCadena(i)));
+        }
+    }
+
+    void finPrograma() {
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+            "FIN",
+            null,
+            null,
+            null));
+    }
+
 	public void report_error(String message) {
 		
 	}
@@ -54,7 +322,7 @@ parser code {:
 :}
 
 terminal LPAREN, RPAREN, PTOCOMA, SUMA, RESTA, PRODUCTO, DIVISION, MENOR, MAYOR, IGUAL, DISTINTO; 
-terminal OR, AND, ASIGNAR, LLLAVE, RLLAVE, INT, MAIN, IF, ELSE, WHILE, PUTS, PUTW; 
+terminal OR, AND, ASIGNAR, LLLAVE, RLLAVE, INT, MAIN, IF, ELSE, WHILE, PUTS, PUTW, EMPTY, FUNCTION, END; 
 terminal BREAK;
 terminal String ID;
 terminal String ENTERO;
@@ -94,7 +362,7 @@ Programa ::=  Declaraciones:d Cuerpo:c
 
 Declaraciones ::= Declaracion:d Declaraciones 
                 {:
-System.out.println("declaracion");
+System.out.println("declaraciones");
                 RESULT = d;
                 :}
                 | Declaracion:d
@@ -110,184 +378,236 @@ Declaracion ::= INT ID:id PTOCOMA
                     if (table.checkInt(id)){
                         parser.error(Textos.simboloRedeclarado);
                     }else{
+                        System.out.println("inserto variable");
                         table.addType("int", id);
+                        table.addTablaSimbolo(id, countDir--);
                     }
                     RESULT = id;
+                :}
+                | FUNCTION:f ID:id LLLAVE BloqueSentencias:b RLLAVE
+                {:
+                    if (table.checkFuncion(id)){
+                        System.err.println("Error: hay 2 o mas funciones con el mismo nombre");
+                    }else{
+                        cuentaFunciones++;
+                        table.addFuncion(id);
+                        ponerEtiquetaFuncion(id, cuentaFunciones, fleft);
+                    }
+                :}
+                | END
+                {:
+                    ponerEtiquetaMain();
                 :};
 
-Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE
+Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias:b RLLAVE
             {:
+                System.out.println("Main");
+                finPrograma();
+                generarCadenas();
+                cerrarCI();
+                //genera codigo fuente
+                generarCF(codigoIntermedio.getCIordenado());
             :};
 
-BloqueSentencias ::= Sentencias
+BloqueSentencias ::= Sentencias:s
                 {:
                 :}
-                |  
+                | EMPTY
                 {:
+                    System.out.println("limpio bloquesentencias");
                 :};
 
-Sentencias ::= Sentencias Sentencia 
+Sentencias ::= Sentencias:s1 Sentencia:s2 
                 {:
+                    RESULT = s1;
                 :}
-                | Sentencia
+                | Sentencia:s
                 {:
+                    RESULT = s;
                 :};
 
 Expresion ::= Expresion:e1 SUMA Expresion:e2 
                 {:
-
+                    RESULT = suma(e1, e2);
                 :}
             | Expresion:e1 RESTA Expresion:e2 
                 {:
-
+                    RESULT = resta(e1, e2);
                 :}
            |  Expresion:e1 PRODUCTO Expresion:e2 
                 {:
-
+                    RESULT = producto(e1, e2);
                 :}
            |  Expresion:e1 DIVISION Expresion:e2 
                 {:
-
+                    RESULT = division(e1, e2);
                 :}
            |    ENTERO:e 
                 {:
-                    
+                    RESULT = entero(e);
                 :}
            |    ID:id 
                 {:
                     if (!table.checkInt(id)){
                         parser.error(Textos.simboloNoDeclarado);
+                        RESULT = identificador(null);
+                    }else {
+                        RESULT = identificador(id);
                     }
                 :}
            |    LPAREN Expresion:e RPAREN 
                 {:
-
+                    RESULT = e;
                 :};
 
-Condicion ::= Expresion OR Expresion 
+Condicion ::= Condicion:c1 OR Condicion:c2 
                 {:
-
+                    RESULT = or(c1, c2);
                 :}
-	   |  Expresion AND Expresion
+	   |  Condicion:c1 AND Condicion:c2
 		{:
-                            
+                    RESULT = and(c1, c2);        
 		:}
-           |  Expresion IGUAL Expresion 
+           |  Expresion:e1 IGUAL Expresion:e2 
 		{:
-                            
+                    RESULT = igual(e1,e2);
 		:}
-	   | Expresion DISTINTO Expresion
+	   | Expresion:e1 DISTINTO Expresion:e2
 		{:
-                            
+                    RESULT = distinto(e1,e2); 
 		:}
-           | Expresion MAYOR Expresion
+           | Expresion:e1 MAYOR Expresion:e2
 		{:
-                            
+                    RESULT = mayor(e1,e2);
 		:}
-	   | Expresion MENOR Expresion
+	   | Expresion:e1 MENOR Expresion:e2
 		{:
-                            
+                    RESULT = menor(e1,e2);
 		:}
        	   | LPAREN Condicion:c RPAREN
 		{:
-                            
+                    RESULT = c;
 		:};
 
-SentIf ::= IF LPAREN 
-        {:
-				
-	:}
-          |  Condicion:c 
+SentIf ::= IF:f LPAREN Condicion:c RPAREN LLLAVE BloqueSentencias:b RLLAVE SentElse:s
 	{:
-				
-	:}
-           | RPAREN LLLAVE BloqueSentencias RLLAVE 
-	{:
-				
-	:}
-          |  SentElse
-	{:
-				
+                condicion(c, pilaIf.getTop(), fleft+15);
+                pilaIf.pop();
+                RESULT = b;
 	:};
 
-SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE 
-;
+SentElse ::= ELSE:e LLLAVE BloqueSentencias:b RLLAVE
+               {:
+                cuentaIf++;
+                pilaIf.push(cuentaIf);
+                cuentaIf++;
+                pilaIf.push(cuentaIf);
 
-SentWhile ::= WHILE LPAREN 
+                //condicion(c, pilaIf.getTop());
+
+                System.out.println("IF adentro");
+                saltarEtiqueta2("FINIF", pilaIf.getTop()-1, eleft+15);
+                ponerEtiquetaInicio("ELSE", pilaIf.getTop()-1,eleft+16);
+                    ponerEtiquetaInicio("FINIF", pilaIf.getTop()-1, eleft+18);
+                    pilaIf.pop();
+                :}
+            | EMPTY
+                {:
+                    cuentaIf++;
+                pilaIf.push(cuentaIf);
+
+                //condicion(c, pilaIf.getTop());
+
+                System.out.println("IF adentro");
+                saltarEtiqueta("FINIF", pilaIf.getTop());
+                //ponerEtiqueta("ELSE", pilaIf.getTop());
+                    ponerEtiqueta("FINIF", pilaIf.getTop());
+                    pilaIf.pop();
+                :};
+
+SentWhile ::= WHILE:w LPAREN Condicion:c RPAREN LLLAVE BloqueSentencias:b RLLAVE 
 		{:
-				
-		:}
-		Condicion:c
-		{:
-				
-		:} 
-		RPAREN LLLAVE 
-		{:
+                    cuentaBucle++;
+                    pilaBucle.push(cuentaBucle);
+                    ponerEtiquetaInicio("BUCLE", pilaBucle.getTop(), wleft);
+                    System.out.println("while");
+
+                    System.out.println("whileCondicion");
+                    condicion2(c, pilaBucle.getTop(), wleft + 4);
+
                     cuentaWhile++;
-		:}
-		BloqueSentencias 
-		{:
-                    cuentaWhile--;
-		:}
-		RLLAVE
-		{:
-                    
+                    saltarEtiqueta("BUCLE", pilaBucle.getTop());
+                    ponerEtiqueta("FINBUCLE", pilaBucle.getTop());
+                    pilaBucle.pop();
+                    RESULT = b;
 		:};
 
-SentAsignacion ::= ID:id 
+SentAsignacion ::= ID:id ASIGNAR Expresion:e PTOCOMA
                     {:
-                      
-                    if (!table.checkInt(id)){
+                        if (!table.checkInt(id)){
                         parser.error(Textos.simboloNoDeclarado);
-                    }
-                    :} 
-                 | ID:id ASIGNAR Expresion:e PTOCOMA
-                    {:
-
+                        }else{
+                            System.out.println("id2");
+                            asignacion(id, e);
+                            RESULT = e;
+                        }
                     :};
 
-SentPutw ::= PUTW LPAREN Expresion:e 
-                    {:
-
-                    :}
-	     RPAREN PTOCOMA
-                    {:
+SentPutw ::= PUTW LPAREN Expresion:e RPAREN PTOCOMA
+                    {:  
+                        System.out.println("putw");
+                        imprimirW(e);
+                        RESULT = e;
                     :};
 
-SentPuts ::= PUTS LPAREN CADENATEXTO:c
+SentPuts ::= PUTS LPAREN CADENATEXTO:c RPAREN PTOCOMA
                     {:
-
-                    :}
-	     RPAREN PTOCOMA
-                    {:
+                        System.out.println("puts");
+                        cuentaCadenas++;
+                        imprimirS(c, cuentaCadenas);
+                        RESULT = c;
                     :};
 
-SentBreak ::= BREAK 
-                    {:
+SentBreak ::= BREAK:b PTOCOMA
+                    {:  
+                        cuentaWhile--;
                         if (cuentaWhile>0){
                         } else {
                             parser.error(Textos.breakSinWhile);
                         }
-                    :}
-	      PTOCOMA
-                    {:
+                        RESULT = b;
                     :};
 
-Sentencia ::= SentIf 
+Sentencia ::= SentIf:s
             {:
+                RESULT = s;
             :}
-            | SentWhile
+            | SentWhile:s
             {:
+                RESULT = s;
             :}
-            | SentAsignacion
+            | SentAsignacion:s
             {:
+                RESULT = s;
             :}
-            | SentPutw
+            | SentPutw:s
             {:
+                RESULT = s;
             :}
-            | SentPuts
+            | SentPuts:s
             {:
+                RESULT = s;
             :}
-            | SentBreak
+            | SentBreak:s
             {:
+                RESULT = s;
+            :}
+            | ID:id LPAREN RPAREN PTOCOMA
+            {:
+                if (table.checkFuncion(id)){
+                    llamada(id);
+                }else{
+                    System.err.println("Error: La funcion no se encuentra");
+                }
+                RESULT = id;
             :};

@@ -19,23 +19,26 @@ public class sym {
   public static final int WHILE = 22;
   public static final int DIVISION = 8;
   public static final int SUMA = 5;
+  public static final int END = 27;
+  public static final int FUNCTION = 26;
   public static final int IF = 20;
   public static final int LPAREN = 2;
-  public static final int ID = 26;
-  public static final int CADENATEXTO = 28;
+  public static final int ID = 29;
+  public static final int CADENATEXTO = 31;
   public static final int ASIGNAR = 15;
   public static final int DISTINTO = 12;
   public static final int MAYOR = 10;
   public static final int EOF = 0;
   public static final int MAIN = 19;
-  public static final int BREAK = 25;
+  public static final int BREAK = 28;
   public static final int PUTW = 24;
   public static final int error = 1;
   public static final int PUTS = 23;
   public static final int PTOCOMA = 4;
   public static final int PRODUCTO = 7;
-  public static final int ENTERO = 27;
+  public static final int ENTERO = 30;
   public static final int RLLAVE = 17;
+  public static final int EMPTY = 25;
   public static final int RESTA = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -63,6 +66,9 @@ public class sym {
   "WHILE",
   "PUTS",
   "PUTW",
+  "EMPTY",
+  "FUNCTION",
+  "END",
   "BREAK",
   "ID",
   "ENTERO",

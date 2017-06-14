@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package UI;
 
-import Grammar.Document;
+
 import LexicalAnalyzer.Parser;
 import LexicalAnalyzer.Yylex;
 import java.awt.event.ActionListener;
@@ -18,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,15 +34,47 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
     private String resConsole;
     private String resLexer;
     private String resTable;
+    private CodeToUI codigoStr = new CodeToUI();
     
 
     public Main() {
         initComponents();
         this.listPaths = new HashMap<String, String>();
-        this.setLocationRelativeTo(null);
+        //this.setLocationRelativeTo(null);
         _start();
     }
 
+    public void run(){
+        try {
+            //dir de archivo
+            int index = jTabFiles.getSelectedIndex();
+            String file = listPaths.get(jTabFiles.getTitleAt(index));
+            
+            Yylex lexer = new Yylex( new FileInputStream( file ) );
+            Parser p = new Parser( lexer );
+            p.init();
+            p.parse();
+            
+            //copia el resultado para variables globales de Terminal
+            //this.resConsole = reporte;
+            codigoStr.generaListLexemas(lexer.getListLexer());
+            this.resLexer = codigoStr.getListLexemas();
+            
+            codigoStr.generarTablaSimbolos((ArrayList)p.getTable().getIntList(), (ArrayList)p.getTable().getFunciones());
+            resTable = codigoStr.getTablaSimbolos();
+              //muestra en Terminal los resultados
+            //muestra en Terminal los resultados
+              auxjButton1ActionPerformed();
+            
+            
+        } catch (Exception ex) {
+               JOptionPane.showMessageDialog(null,
+                      "Problema con la compilación.",
+                          " Error",JOptionPane.INFORMATION_MESSAGE);
+        } finally {
+        }
+    }
+    /**
     private void compileFile(){
                 
         try {
@@ -87,7 +116,7 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
       } finally {
       }
 
-    }
+    }*/
         
     
     /**
@@ -102,15 +131,13 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
         jDialog1 = new javax.swing.JDialog();
         jFileChooser1 = new javax.swing.JFileChooser();
         jTabFiles = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
         jTabsTerminal = new javax.swing.JTabbedPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jPanelTerminalConsole = new javax.swing.JTextPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanelTerminalFlex = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         jPanelTerminalTable = new javax.swing.JTextPane();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jPanelTerminalConsole = new javax.swing.JTextPane();
         jBtnCompile = new javax.swing.JButton();
         jBtnNewFile = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -148,22 +175,7 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
         jTabFiles.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTabFiles.addKeyListener(this);
 
-        jTree1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.setToolTipText("");
-        jTree1.setAutoscrolls(true);
-        jTree1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTree1.setVerifyInputWhenFocusTarget(false);
-        jScrollPane1.setViewportView(jTree1);
-
         jTabsTerminal.addMouseListener(this);
-
-        jPanelTerminalConsole.setEditable(false);
-        jPanelTerminalConsole.setToolTipText("");
-        jScrollPane3.setViewportView(jPanelTerminalConsole);
-
-        jTabsTerminal.addTab("Console", jScrollPane3);
 
         jPanelTerminalFlex.setEditable(false);
         jPanelTerminalFlex.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -177,6 +189,12 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
         jScrollPane5.setViewportView(jPanelTerminalTable);
 
         jTabsTerminal.addTab("Symbol Table", jScrollPane5);
+
+        jPanelTerminalConsole.setEditable(false);
+        jPanelTerminalConsole.setToolTipText("");
+        jScrollPane3.setViewportView(jPanelTerminalConsole);
+
+        jTabsTerminal.addTab("Console", jScrollPane3);
 
         jBtnCompile.setText("Compile");
         jBtnCompile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -234,37 +252,30 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabFiles)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jBtnCompile, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBtnNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addComponent(jBtnCompile, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabFiles, javax.swing.GroupLayout.DEFAULT_SIZE, 993, Short.MAX_VALUE))
-            .addComponent(jSeparator1)
+                .addComponent(jBtnNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1078, Short.MAX_VALUE))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jTabsTerminal)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jBtnCompile, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                            .addComponent(jBtnNewFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(jTabFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnCompile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnNewFile, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabsTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addComponent(jTabFiles, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jTabsTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -515,7 +526,7 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
           jPanelTerminalTable.setText(resTable);
     }
     private void jBtnCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCompileActionPerformed
-        compileFile();
+        run();
     }//GEN-LAST:event_jBtnCompileActionPerformed
 
     private void jTabsTerminalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabsTerminalMouseClicked
@@ -599,7 +610,7 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
     }//GEN-LAST:event_jTabFilesKeyTyped
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        compileFile();
+        run();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -662,13 +673,11 @@ public class Main extends javax.swing.JFrame implements ActionListener, MouseLis
     private javax.swing.JTextPane jPanelTerminalConsole;
     private javax.swing.JTextPane jPanelTerminalFlex;
     private javax.swing.JTextPane jPanelTerminalTable;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabFiles;
     private javax.swing.JTabbedPane jTabsTerminal;
-    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }

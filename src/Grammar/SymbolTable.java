@@ -17,11 +17,15 @@ import java.util.Map;
 public class SymbolTable {
     
     public List intList;
+    public Map<String, Integer> tablaSimbolos;
     public Map<String, String> assignID;
+    public List funciones;
     
     public SymbolTable(){
         intList = new ArrayList<>();
+        funciones = new ArrayList<>();
         assignID = new HashMap<String, String>(); //ID, valor
+        tablaSimbolos = new HashMap<String, Integer>(); //ID, Direccion
     }
     
     public void addType(String type, String ID){
@@ -34,6 +38,19 @@ public class SymbolTable {
                 
         }
         
+    }
+    
+    public void addFuncion(String id){
+        funciones.add(id);
+    }
+    
+    public boolean checkFuncion(String funcion){
+        for(int i = 0; i < funciones.size(); i++){
+            if (funciones.get(i).equals(funcion)){
+                return true;
+            }
+        }
+        return false;
     }
     
     /*public void putAssignID(String ID, Expression e){
@@ -62,6 +79,10 @@ public class SymbolTable {
         return check;
     }
     
+    public void addTablaSimbolo(String id, Integer dir){
+        tablaSimbolos.put(id, dir);
+    }
+    
     
     public boolean checkInt(String ID){
         for(int i = 0; i<intList.size(); i++){
@@ -71,10 +92,15 @@ public class SymbolTable {
         }
         return false;
     }
-    
-    public void setSimbolo(Simbolo s){
-        //int cod = s.getCod();
-       
+
+    public List getIntList() {
+        return intList;
     }
+
+    public List getFunciones() {
+        return funciones;
+    }
+    
+    
     
 }
