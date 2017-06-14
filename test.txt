@@ -1,14 +1,12 @@
+int x;
+int y;
 main(){
-	int num;
-	num = 1;
-	num = num +3;
-	if(num<7){
-		if (num < 3){
-			if (num>8){
-				putw(num+1); putw(num+5);
-			}
-		}
-	}else{
-		putw(num+10);
-	}
+	x = 10;
+	y = 0;
+	puts("Se debe escribir 10: ");
+	putw(x);
+	puts("\n");
+	puts("Se debe escribir 11: ");
+	putw(x+(y/5));
+	puts("\n");
 }
